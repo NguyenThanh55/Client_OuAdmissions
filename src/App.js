@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+// import './App.css';
+import { useEffect, useState } from 'react';
+import typeApi from './api/typeApi';
+import TodoFeature from './features/Todo';
+import axios from 'axios';
 
 function App() {
+  const [typeList, setTypeList] = useState([]);
+
+  useEffect(() => {
+    const getTypes = async () => {
+      try {
+        const request = await axios.get(
+          // 'http://localhost:8088/OUAdmission/api/type'
+              // 'https://jsonplaceholder.typicode.com/posts?_limit=10'
+              'http://192.168.56.1:8088/OUAdmission/api/type'
+        )
+        console.log(request.data)
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+    getTypes()
+  }, []);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      {/* <TypeList typeList={} /> */}
+      <TodoFeature />
+      {/* <AlbumFeature /> */}
     </div>
   );
 }
