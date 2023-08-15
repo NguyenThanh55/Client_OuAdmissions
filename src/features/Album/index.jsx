@@ -29,7 +29,6 @@ function AlbumFeature(props) {
     ]
     return (
         <div>
-            <h1>ZingMP3</h1>
             <AlbumList albumList={albumList} />
         </div>
     );
