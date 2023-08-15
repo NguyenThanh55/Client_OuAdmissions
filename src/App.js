@@ -13,7 +13,7 @@ function App() {
         const request = await axios.get(
           // 'http://localhost:8088/OUAdmission/api/type'
               // 'https://jsonplaceholder.typicode.com/posts?_limit=10'
-              'http://192.168.56.1:8088/OUAdmission/api/type'
+              'http://localhost:8080/OUAdmissions/api/type'
         )
         console.log(request.data)
       } catch (error) {
