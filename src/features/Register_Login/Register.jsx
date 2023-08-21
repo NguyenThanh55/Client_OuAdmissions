@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axiosClient, { endpoints } from '../../api/axiosClient';
 
 const Register = () => {
     const [validated, setValidated] = useState(false);
+
+    const [firstName, setfirstName] = useState();
+    const [lastName, setlastName] = useState();
+    const [phone, setphone] = useState();
+    const [email, setemail] = useState();
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
+    const [confimPassword, setConfimPassword] = useState();
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
@@ -13,6 +22,13 @@ const Register = () => {
         }
 
         setValidated(true);
+        const process = async () => {
+            try {
+            } catch (ex) {
+                console.error(ex);
+            }
+        }
+        process();
     };
 
     return (
@@ -35,6 +51,8 @@ const Register = () => {
                                                     <Form.Control
                                                         required
                                                         type="text"
+                                                        value={firstName}
+                                                        onChange={e => setfirstName(e.target.value)}
                                                         placeholder="Nhập tên ..." />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
@@ -47,6 +65,8 @@ const Register = () => {
                                                     <Form.Control
                                                         required
                                                         type="text"
+                                                        value={lastName}
+                                                        onChange={e => setlastName(e.target.value)}
                                                         placeholder="Nhập họ ..." />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
@@ -61,6 +81,8 @@ const Register = () => {
                                                     <Form.Control
                                                         required
                                                         type="email"
+                                                        value={email}
+                                                        onChange={e => setemail(e.target.value)}
                                                         placeholder="Nhập địa chỉ email ..." />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
@@ -73,6 +95,8 @@ const Register = () => {
                                                     <Form.Control
                                                         required
                                                         type="number"
+                                                        value={phone}
+                                                        onChange={e => setphone(e.target.value)}
                                                         placeholder="Nhập số điện thoại ..." />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
@@ -85,6 +109,8 @@ const Register = () => {
                                                     <Form.Control
                                                         required
                                                         type="text"
+                                                        value={username}
+                                                        onChange={e => setUsername(e.target.value)}
                                                         placeholder="Nhập tên đăng nhập ..." />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
@@ -100,6 +126,8 @@ const Register = () => {
                                                     <Form.Control
                                                         required
                                                         type="password"
+                                                        value={password}
+                                                        onChange={e => setPassword(e.target.value)}
                                                         placeholder="Password" />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
@@ -114,6 +142,8 @@ const Register = () => {
                                                     <Form.Control
                                                         required
                                                         type="password"
+                                                        value={confimPassword}
+                                                        onChange={e => setConfimPassword(e.target.value)}
                                                         placeholder="Password" />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">

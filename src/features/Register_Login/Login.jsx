@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import axiosClient, { authApi, endpoints } from '../../api/axiosClient';
 import cookie from "react-cookies";
+import { MyUserContext } from '../../App';
 
 const Login = () => {
+    const [user, dispatch] = useContext(MyUserContext)
     const [validated, setValidated] = useState(false);
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
@@ -27,13 +29,20 @@ const Login = () => {
                 console.log(res.data);
                 let { data } = await authApi().get(endpoints['current-user']);
                 cookie.save("user", data);
-                console.info(data);
+
+                dispatch({
+                    "type": "login",
+                    "payload": data
+                })
             } catch (ex) {
                 console.error(ex);
             }
         }
         process();
     };
+
+    if (user !== null)
+        return <Navigate to="/" />
 
     return (
         <div>

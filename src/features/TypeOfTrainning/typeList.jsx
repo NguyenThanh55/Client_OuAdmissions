@@ -21,9 +21,12 @@ const TypeFeature = () => {
     return (
         <>
             {/* <TypeList typeList={typeList} /> */}
-            {typeList.map(type => (
-                <NavDropdown.Item href={`#${type.id}`} key={type.id}>{type.name}</NavDropdown.Item >
-            ))}
+            {typeList.map(type => {
+
+                // <NavDropdown.Item href={`#${type.id}`} key={type.id}>{type.name}</NavDropdown.Item >
+                let h = `/?typeId=${type.id}`;
+                return <Link to={h} className="dropdown-item" key={type.id}>{type.name}</Link>
+            })}
         </>
     );
 }

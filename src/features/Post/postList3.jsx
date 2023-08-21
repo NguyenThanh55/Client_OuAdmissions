@@ -38,6 +38,13 @@ const ListPost3 = () => {
                     </Card>
                 </li>
             ))}
+            <li>
+                <Card className='card_post'>
+                    <Card.Body>
+                        <Card.Title><Link className='deco_post' to={`/post_by_Type/3`}>Xem thêm</Link></Card.Title>
+                    </Card.Body>
+                </Card>
+            </li>
         </ul>
     );
 }

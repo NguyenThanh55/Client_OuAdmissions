@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useContext, useEffect, useState } from 'react';
 import './Header.scss';
 import logo from '../logo.png';
 import Container from 'react-bootstrap/Container';
@@ -9,13 +9,21 @@ import TypeFeature from '../features/TypeOfTrainning/typeList';
 import { Button, Col, Form, FormControl, Image, Row } from 'react-bootstrap';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import axiosClient, { endpoints } from '../api/axiosClient';
+import { MyUserContext } from '../App';
 const Header = () => {
+    const [user, dispatch] = useContext(MyUserContext);
     const [kw, setKw] = useState("");
     const nav = useNavigate();
 
     const search = (evt) => {
         evt.preventDefault();
-        nav(`/?kw=${kw}`);
+        nav(`/search?kw=${kw}`);
+    }
+
+    const logout = () => {
+        dispatch({
+            "type": "logout"
+        })
     }
 
     return (
@@ -55,10 +63,20 @@ const Header = () => {
                     <Link to="/khoa" className='nav-link'>Thông tin khoa ngành</Link>
                     <Link to="/questionAndAnswer" className='nav-link'>Q&A</Link>
                 </Nav>
-                <Button variant="outline-info"><Link to="/register" className='text-white'>Đăng ký</Link></Button>{' '}
-                <Button variant="outline-info"><Link to="/login" className='text-white'>Đăng nhập</Link></Button>{' '}
-
-            </Navbar>
+                {user === null ? <>
+                    <Button variant="outline-info"><Link to="/register" className='text-white'>Đăng ký</Link></Button>{' '}
+                    <Button variant="outline-info"><Link to="/login" className='text-white'>Đăng nhập</Link></Button>{' '}
+                </> : <>
+                    <Row style={{ width: "15%" }}>
+                        <Col xs={6} style={{ width: "90%" }}>
+                            {/* <Image style={{ width: "100%" }} src='https://tuyensinh.ou.edu.vn/media/photos/media/logo/logo-w1.png' rounded alt='Logo' /> */}
+                            <Image style={{ width: "100%" }} src={user.avatar} rounded alt='Logo' />
+                        </Col>
+                    </Row>
+                    <Button variant="outline-info"><Link to="/" className='text-white'>{user.username}</Link></Button>{' '}
+                    <Button variant="outline-info" onClick={logout}>Đăng xuất</Button>{' '}
+                </>}
+            </Navbar >
 
 
         </>

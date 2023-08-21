@@ -15,11 +15,11 @@ const Home = () => {
   useEffect(() => {
     let loadPosts = async () => {
       try {
-        let e = endpoints['posts'];
+        let e = endpoints['post'];
 
-        let kw = q.get('kw');
-        if (kw !== null)
-          e = `${e}?kw=${kw}`;
+        let typeId = q.get("typeId");
+        if (typeId !== null)
+          e = `${e}?typeId=${typeId}`;
 
         let res = await axiosClient.get(e);
         setPosts(res.data);
@@ -32,39 +32,22 @@ const Home = () => {
 
   }, [q])
 
-  if (posts === null) {
-    return (
-      <>
-        {/* <h2>Thông tin tuyển sinh</h2> */}
-        <h1 class="text-center text-info mt-1">THÔNG TIN TUYỂN SINH</h1>
-        <h2 className="title" id="1" >Hệ chính quy</h2>
-        <ListPost1 />
-        <h2 className="title" id="2" >Hệ liên thông</h2>
-        <ListPost2 />
-        <h2 className="title" id="3" >Cao học </h2>
-        <ListPost3 />
-        <h2 className="title" id="4" >Thạc sĩ </h2>
-        <ListPost4 />
-        <h2 className="title" id="5" >Đào tạo từ xa </h2>
-        <ListPost5 />
-      </>
-    );
-  }
-  else {
-    return (
-      <>
-        <Banner />
-        <ul>
-          {posts.map(post => (
-            <li>
-              <h2>{post.title}</h2>
-              <p>{post.content}</p>
-            </li>
-          ))}
-        </ul>
-      </>
-    );
-  }
+  return (
+    <>
+      {/* <h2>Thông tin tuyển sinh</h2> */}
+      <h1 class="text-center text-info mt-1">THÔNG TIN TUYỂN SINH</h1>
+      <h2 className="title" id="1" >Hệ chính quy</h2>
+      <ListPost1 />
+      <h2 className="title" id="2" >Hệ liên thông</h2>
+      <ListPost2 />
+      <h2 className="title" id="3" >Cao học </h2>
+      <ListPost3 />
+      <h2 className="title" id="4" >Thạc sĩ </h2>
+      <ListPost4 />
+      <h2 className="title" id="5" >Đào tạo từ xa </h2>
+      <ListPost5 />
+    </>
+  );
 };
 
 export default Home;
