@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import './post.scss';
 import axiosClient, { endpoints } from '../../api/axiosClient';
+import { Link } from 'react-router-dom';
 
 const ListPost5 = () => {
     const [ListPost, setPostState1] = useState([])
@@ -28,10 +29,11 @@ const ListPost5 = () => {
             {/* <PostItem postItem={ListPostTS} /> */}
             {ListPost.map(post => (
                 <li key={post.id}>
-                    <Card >
+                    <Card className='card_post'>
                         <Card.Img variant="top" src="https://tuyensinh.ou.edu.vn/tmp/rscache/1110x475-21072023-01.png" />
                         <Card.Body>
-                            <Card.Title>{post.title}</Card.Title>
+                            {/* <Card.Title><a href={() => handleClick()}>{post.title}</a></Card.Title> */}
+                            <Card.Title><Link className='deco_post' to={`/post_info/${post.id}`}>{post.title}</Link></Card.Title>
                         </Card.Body>
                     </Card>
                 </li>

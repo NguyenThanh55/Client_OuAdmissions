@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './post.scss';
 import axiosClient, { endpoints } from '../../api/axiosClient';
+import { useParams } from 'react-router-dom';
 
 function PostItem({ postId }) {
     const [post, setPost] = useState(null);
+    const { id } = useParams();
+
 
     useEffect(() => {
-        axiosClient.get(`${endpoints['postInfo']} / ${postId}`)
+        axiosClient.get(`${endpoints['postInfo']} + ${id}`)
             .then(response => {
                 setPost(response.data);
             })
@@ -16,7 +19,7 @@ function PostItem({ postId }) {
     }, [postId]);
 
     if (!post) {
-        return <div>Loading...</div>;
+        return <div>Chưa có dữ liệu ...</div>;
     }
 
     return (

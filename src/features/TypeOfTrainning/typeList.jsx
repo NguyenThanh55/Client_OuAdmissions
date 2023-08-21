@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavDropdown } from 'react-bootstrap';
 import axiosClient, { endpoints } from '../../api/axiosClient';
+import { Link } from 'react-router-dom';
 
 const TypeFeature = () => {
     const [typeList, setTypeState] = useState([])
@@ -21,7 +22,7 @@ const TypeFeature = () => {
         <>
             {/* <TypeList typeList={typeList} /> */}
             {typeList.map(type => (
-                <NavDropdown.Item href='' key={type.id}>{type.name}</NavDropdown.Item>
+                <NavDropdown.Item href={`#${type.id}`} key={type.id}>{type.name}</NavDropdown.Item >
             ))}
         </>
     );

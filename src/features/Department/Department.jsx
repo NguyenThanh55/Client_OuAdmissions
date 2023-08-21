@@ -29,7 +29,7 @@ const Department = () => {
                         <Card >
                             <Card.Img variant="top" src="https://tuyensinh.ou.edu.vn/tmp/rscache/1110x475-21072023-01.png" />
                             <Card.Body>
-                                <Card.Title><a href="/">{d.name}</a></Card.Title>
+                                <Card.Title><Link to={`/depart_info/${d.id}`}>{d.name}</Link></Card.Title>
                             </Card.Body>
                         </Card>
                     </li>
