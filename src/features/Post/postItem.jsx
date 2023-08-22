@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './post.scss';
 import axiosClient, { endpoints } from '../../api/axiosClient';
+import Container from 'react-bootstrap/Container';
 
 function PostItem({ postId }) {
     const [post, setPost] = useState(null);
@@ -18,15 +19,21 @@ function PostItem({ postId }) {
             });
     }, [postId]);
 
+
+
     if (!post) {
         return <div>Loading...{postId}</div>;
     }
 
     return (
-        <div>
-            <h2>{post.title}</h2>
-            <p>{post.content}</p>
-        </div>
+        <Container>
+            <div > 
+                <h2>{post.title}</h2>
+                {post.content}
+            </div>
+        </Container>
+            
+        
     );
 }
 

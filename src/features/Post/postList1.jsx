@@ -13,11 +13,6 @@ const ListPost1 = () => {
         const getPost = async () => {
             try {
                 const res = await axiosClient.get(endpoints['post1']);
-                // 'https://jsonplaceholder.typicode.com/posts?_limit=4'
-                // 'http://localhost:8088/OUAdmission/api/listPostwithCountTS'
-                //     'http://localhost:8088/OUAdmissions/api/listPostwithCountTS'
-                // )
-                // console.log(res.data)
                 setPostState1(res.data)
             } catch (error) {
                 console.log(error.message)

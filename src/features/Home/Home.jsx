@@ -9,7 +9,7 @@ import ListPost5 from "../Post/postList5";
 const Home = () => {
   return (
     <>
-      {/* <h2>Thông tin tuyển sinh</h2> */}
+      
       <h1 class="text-center text-info mt-1">THÔNG TIN TUYỂN SINH</h1>
       <h2 id="1" >Hệ chính quy</h2>
       <ListPost1 />
