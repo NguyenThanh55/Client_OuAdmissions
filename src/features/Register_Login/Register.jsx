@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
+import { Col, Button, Row, Container, Card, Form, Toast } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axiosClient, { endpoints } from '../../api/axiosClient';
+import { toast } from 'react-toastify';
 
 const Register = () => {
     const [validated, setValidated] = useState(false);
@@ -16,20 +17,44 @@ const Register = () => {
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
+        event.preventDefault();
+
         if (form.checkValidity() === false) {
-            event.preventDefault();
             event.stopPropagation();
         }
 
         setValidated(true);
+        let regobj = {
+            firstName, lastName, phone,
+            email, username, password
+        };
         const process = async () => {
+            console.log(firstName,lastName,username,password,email,phone)
             try {
+                let res = await axiosClient.post(endpoints['register-user'], {
+                    "firstName":firstName,
+                    "lastName":lastName,
+                    "username": username,
+                    "password": password,
+                    "phone":phone,
+                    "email":email
+                    // method: 'POST',
+                    // headers: {
+                    //     'Accept': 'application/json',
+                    //     'Content-Type': 'application/json'
+                    // },
+                    // mode: 'no-cors',
+                    // body: JSON.stringify(regobj)
+                })
+                console.log(res);
             } catch (ex) {
                 console.error(ex);
             }
         }
         process();
     };
+
+
 
     return (
         <>
@@ -46,7 +71,7 @@ const Register = () => {
                                         </h2>
                                         <div className="mb-3">
                                             <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                                                <Form.Group className="mb-3" controlId="Name">
+                                                <Form.Group className="mb-3" controlId="LastName">
                                                     <Form.Label className="text-center">Tên</Form.Label>
                                                     <Form.Control
                                                         required
@@ -60,7 +85,7 @@ const Register = () => {
                                                     </Form.Control.Feedback>
                                                 </Form.Group>
 
-                                                <Form.Group className="mb-3" controlId="Name">
+                                                <Form.Group className="mb-3" controlId="firstName">
                                                     <Form.Label className="text-center">Họ</Form.Label>
                                                     <Form.Control
                                                         required
@@ -90,7 +115,7 @@ const Register = () => {
                                                     </Form.Control.Feedback>
                                                 </Form.Group>
 
-                                                <Form.Group className="mb-3" controlId="Name">
+                                                <Form.Group className="mb-3" controlId="phone">
                                                     <Form.Label className="text-center">Số điện thoại</Form.Label>
                                                     <Form.Control
                                                         required
@@ -104,7 +129,7 @@ const Register = () => {
                                                     </Form.Control.Feedback>
                                                 </Form.Group>
 
-                                                <Form.Group className="mb-3" controlId="Name">
+                                                <Form.Group className="mb-3" controlId="username">
                                                     <Form.Label className="text-center">Tên đăng nhập</Form.Label>
                                                     <Form.Control
                                                         required
@@ -136,7 +161,7 @@ const Register = () => {
                                                 </Form.Group>
                                                 <Form.Group
                                                     className="mb-3"
-                                                    controlId="formBasicPassword"
+                                                    controlId="formBasicConfirmPassword"
                                                 >
                                                     <Form.Label>Xác nhận mật khẩu</Form.Label>
                                                     <Form.Control

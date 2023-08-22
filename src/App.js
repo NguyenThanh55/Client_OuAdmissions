@@ -15,6 +15,9 @@ import cookie from "react-cookies";
 import MyUserReducer from "./features/Register_Login/reducers/MyUserReducer";
 import Search from "./features/Search/Search";
 import PostByType from "./features/Post/PostByType";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export const MyUserContext = createContext();
 
@@ -30,6 +33,7 @@ const App = () => {
         <BrowserRouter>
           <div>
             <Header />
+            <Container>
             <Routes>
               <Route path="/" exact element={<Home />} />
               <Route path="/khoa" element={<Department />} />
@@ -44,6 +48,8 @@ const App = () => {
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
             </Routes>
+            </Container>
+            
             <Footer />
           </div>
         </BrowserRouter>

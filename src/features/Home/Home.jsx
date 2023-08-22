@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 // import AlbumFeature from "../Album";
 import './home.scss';
-import ListPost1 from "../Post/PostList1";
-import ListPost2 from "../Post/PostList2";
-import ListPost3 from "../Post/PostList3";
-import ListPost4 from "../Post/PostList4";
-import ListPost5 from "../Post/PostList5";
+import ListPost1 from "../Post/ListPost1";
+import ListPost2 from "../Post/ListPost2";
+import ListPost3 from "../Post/ListPost3";
+import ListPost4 from "../Post/ListPost4";
+import ListPost5 from "../Post/ListPost5";
 import { useSearchParams } from "react-router-dom";
 import axiosClient, { endpoints } from "../../api/axiosClient";
 import Banner from "../Banner/Banner";

@@ -2,7 +2,7 @@ import axios from "axios";
 import cookie from "react-cookies";
 
 const SERVER_CONTEXT = "/OUAdmissions";
-const SERVER = "http://localhost:8088";
+const SERVER = "http://localhost:8080";
 
 export const endpoints = {
   type: `${SERVER_CONTEXT}/api/type`,
@@ -12,7 +12,13 @@ export const endpoints = {
   post3: `${SERVER_CONTEXT}/api/getList5Post/3`,
   post4: `${SERVER_CONTEXT}/api/getList5Post/4`,
   post5: `${SERVER_CONTEXT}/api/getList5Post/5`,
-  departs: `${SERVER_CONTEXT}/api/listDepartment`,
+  posts: `${SERVER_CONTEXT}/api/listPost`,
+  postByType: `${SERVER_CONTEXT}/api/getPostByType/`,
+  departs: `${SERVER_CONTEXT}/api/departments/listDepartment`,
+  departInfo: `${SERVER_CONTEXT}/api/departments/department_info/`,
+  login: `${SERVER_CONTEXT}/api/login/`,
+  "current-user": `${SERVER_CONTEXT}/api/current-user/`,
+  "register-user": `${SERVER_CONTEXT}/api/register-user/`
 
 }
 export const authApi = () => {
