@@ -11,8 +11,6 @@ import Footer from "./layout/Footer";
 import Register from "./features/Register_Login/Register";
 import QuestionAndAnswer from "./features/Q&A/QuestionAndAnswer";
 import { createContext, useReducer } from "react";
-// import ListPost from "./features/Post/postList";
-// import AlbumFeature from "./features/Album";
 import cookie from "react-cookies";
 import MyUserReducer from "./features/Register_Login/reducers/MyUserReducer";
 import Search from "./features/Search/Search";
@@ -36,7 +34,7 @@ const App = () => {
               <Route path="/" exact element={<Home />} />
               <Route path="/khoa" element={<Department />} />
               <Route path="/post_by_Type/:id" element={<PostByType />} />
-              <Route path="/post_info/:id" element={<PostItem />} />
+              <Route path="/post_info/:id" element={<postItem />} />
               <Route path="/depart_info/:id" element={<DepartItem />} />\
               <Route
                 path="/questionAndAnswer"
