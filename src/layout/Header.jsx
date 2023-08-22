@@ -1,91 +1,86 @@
-import React, { Component } from 'react';
-// import './Header.scss';
+import React, { Component, useContext, useEffect, useState } from 'react';
+import './Header.scss';
 import logo from '../logo.png';
-import Carousel from 'react-bootstrap/Carousel';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import TypeFeature from '../features/TypeOfTrainning/typeList';
-import { Button, Col, Image, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-class Header extends Component {
-    render() {
-        return (
-            <>
-                <Navbar bg="dark" variant="dark" >
-                    <Container style={{ width: "100%" }}>
-                        <Row style={{ width: "15%" }}>
-                            <Col xs={6} style={{ width: "90%" }}>
-                                {/* <Image style={{ width: "100%" }} src='https://tuyensinh.ou.edu.vn/media/photos/media/logo/logo-w1.png' rounded alt='Logo' /> */}
-                                <Image style={{ width: "100%" }} src={logo} rounded alt='Logo' />
-                            </Col>
-                        </Row>
-                        <Navbar.Brand href="/" style={{ width: "65%", fontWeight: 'bold' }}>CỔNG THÔNG TIN TUYỂN SINH <br />TRƯỜNG ĐẠI HỌC MỞ THÀNH PHỐ HỒ CHÍ MINH</Navbar.Brand>
-                        <ul
-                            className="nav navbar-nav navbar-right" style={{ padding: 10 }}
-                        >
-                            <form className="d-flex">
-                                <input
-                                    className="form-control me-2"
-                                    type="text"
-                                    name="kw"
-                                    placeholder="Nhập từ khóa..."
-                                />
-                                <Button variant="outline-info"> Tìm </Button>{' '}
-                            </form>
-                        </ul>
-                    </Container>
-                </Navbar>
-                <Navbar bg="dark" variant="dark" style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 0, paddingBottom: 5 }}>
+import { Button, Col, Form, FormControl, Image, Row } from 'react-bootstrap';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import axiosClient, { endpoints } from '../api/axiosClient';
+import { MyUserContext } from '../App';
+const Header = () => {
+    const [user, dispatch] = useContext(MyUserContext);
+    const [kw, setKw] = useState("");
+    const nav = useNavigate();
 
-                    <Nav className="mr-auto">
-                        <Link to="/" className='nav-link'>Trang chủ</Link>
-                        <NavDropdown title="Thông tin tuyển sinh" id="basic-nav-dropdown">
-                            <TypeFeature />
-                        </NavDropdown>
-                        <Link to="/khoa" className='nav-link'>Thông tin khoa ngành</Link>
-                        <Nav.Link to="#pricing">Liên hệ</Nav.Link>
-                    </Nav>
-                    <Button variant="outline-info">  Đăng ký</Button>{' '}
-                    <Button variant="outline-info">  Đăng nhập</Button>{' '}
-
-                </Navbar>
-
-
-                <Carousel>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src="https://tuyensinh.ou.edu.vn/tmp/rscache/1110x475-21072023-01.png"
-                            alt="one slide"
-                        />
-                        <Carousel.Caption>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src="https://tuyensinh.ou.edu.vn/tmp/rscache/1110x475-dkxt2-01.png"
-                            alt="Second slide"
-                        />
-                        <Carousel.Caption>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src="https://tuyensinh.ou.edu.vn/tmp/rscache/1110x475-Ket qua so tuyen-1-01.png"
-                            alt="Second slide"
-                        />
-                        <Carousel.Caption>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                </Carousel>
-                {/* </nav> */}
-            </>
-        )
+    const search = (evt) => {
+        evt.preventDefault();
+        nav(`/search?kw=${kw}`);
     }
+
+    const logout = () => {
+        dispatch({
+            "type": "logout"
+        })
+    }
+
+    return (
+        <>
+            <Navbar bg="dark" variant="dark" >
+                <Container style={{ width: "100%" }}>
+                    <Row style={{ width: "15%" }}>
+                        <Col xs={6} style={{ width: "90%" }}>
+                            {/* <Image style={{ width: "100%" }} src='https://tuyensinh.ou.edu.vn/media/photos/media/logo/logo-w1.png' rounded alt='Logo' /> */}
+                            <Image style={{ width: "100%" }} src={logo} rounded alt='Logo' />
+                        </Col>
+                    </Row>
+                    <Navbar.Brand href="/" style={{ width: "65%", fontWeight: 'bold' }}>CỔNG THÔNG TIN TUYỂN SINH <br />TRƯỜNG ĐẠI HỌC MỞ THÀNH PHỐ HỒ CHÍ MINH</Navbar.Brand>
+                    <ul
+                        className="nav navbar-nav navbar-right" style={{ padding: 10 }}
+                    >
+                        <Form onSubmit={search} inline className="d-flex">
+                            <Form.Control
+                                className=" mr-sm-2"
+                                type="text"
+                                value={kw}
+                                onChange={e => setKw(e.target.value)}
+                                placeholder="Nhập từ khóa..."
+                            />
+                            <Button variant="outline-info" type='submit'> Tìm </Button>{' '}
+                        </Form>
+                    </ul>
+                </Container>
+            </Navbar>
+            <Navbar bg="dark" variant="dark" style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 0, paddingBottom: 5 }}>
+
+                <Nav className="mr-auto">
+                    <Link to="/" className='nav-link'>Trang chủ</Link>
+                    <NavDropdown title="Thông tin tuyển sinh" id="basic-nav-dropdown">
+                        <TypeFeature />
+                    </NavDropdown>
+                    <Link to="/khoa" className='nav-link'>Thông tin khoa ngành</Link>
+                    <Link to="/questionAndAnswer" className='nav-link'>Q&A</Link>
+                </Nav>
+                {user === null ? <>
+                    <Button variant="outline-info"><Link to="/register" className='text-white'>Đăng ký</Link></Button>{' '}
+                    <Button variant="outline-info"><Link to="/login" className='text-white'>Đăng nhập</Link></Button>{' '}
+                </> : <>
+                    <Row style={{ width: "15%" }}>
+                        <Col xs={6} style={{ width: "90%" }}>
+                            {/* <Image style={{ width: "100%" }} src='https://tuyensinh.ou.edu.vn/media/photos/media/logo/logo-w1.png' rounded alt='Logo' /> */}
+                            <Image style={{ width: "100%" }} src={user.avatar} rounded alt='Logo' />
+                        </Col>
+                    </Row>
+                    <Button variant="outline-info"><Link to="/" className='text-white'>{user.username}</Link></Button>{' '}
+                    <Button variant="outline-info" onClick={logout}>Đăng xuất</Button>{' '}
+                </>}
+            </Navbar >
+
+
+        </>
+    );
 }
 
 export default Header;

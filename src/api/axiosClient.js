@@ -1,6 +1,8 @@
 import axios from "axios";
+import cookie from "react-cookies";
 
 const SERVER_CONTEXT = "/OUAdmissions";
+const SERVER = "http://localhost:8088";
 
 export const endpoints = {
   type: `${SERVER_CONTEXT}/api/type`,
@@ -11,9 +13,18 @@ export const endpoints = {
   post4: `${SERVER_CONTEXT}/api/getList5Post/4`,
   post5: `${SERVER_CONTEXT}/api/getList5Post/5`,
   departs: `${SERVER_CONTEXT}/api/listDepartment`,
+
+}
+export const authApi = () => {
+  return axios.create({
+    baseURL: SERVER,
+    headers: {
+      Authorization: cookie.load("token"),
+    },
+  });
 };
 
 
 export default axios.create({
-  baseURL: "http://localhost:8080"
+  baseURL: SERVER,
 });

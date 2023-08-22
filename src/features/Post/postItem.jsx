@@ -11,6 +11,7 @@ function PostItem({ postId }) {
     useEffect(() => {
         axiosClient.get(`${endpoints['postInfo']} + ${id}`)
            .then(response => {
+
                 setPost(response.data);
             })
             .catch(error => {
@@ -23,6 +24,7 @@ function PostItem({ postId }) {
 
     if (!post) {
         return <div>Loading...{postId}</div>;
+
     }
 
     return (
