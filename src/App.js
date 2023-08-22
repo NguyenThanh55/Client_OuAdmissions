@@ -1,35 +1,27 @@
-// import './App.css';
-import { useEffect, useState } from 'react';
-import typeApi from './api/typeApi';
-import TodoFeature from './features/Todo';
-import axios from 'axios';
+// import "./App.css";
+// import TypeFeature from "./features/TypeOfTrainning/typeList";
+import Header from "./layout/Header";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Department from "./features/Department/Department";
+import Home from "./features/Home/Home";
+import PostItem from "./features/Post/postItem";
+// import ListPost from "./features/Post/postList";
+// import AlbumFeature from "./features/Album";
 
 function App() {
-  const [typeList, setTypeList] = useState([]);
-
-  useEffect(() => {
-    const getTypes = async () => {
-      try {
-        const request = await axios.get(
-          // 'http://localhost:8088/OUAdmission/api/type'
-              // 'https://jsonplaceholder.typicode.com/posts?_limit=10'
-              'http://localhost:8080/OUAdmissions/api/type'
-        )
-        console.log(request.data)
-      } catch (error) {
-        console.log(error.message)
-      }
-    }
-    getTypes()
-  }, []);
-
-
   return (
-    <div className='App'>
-      {/* <TypeList typeList={} /> */}
-      <TodoFeature />
-      {/* <AlbumFeature /> */}
-    </div>
+    <>
+      <BrowserRouter>
+        <div>
+          <Header />
+          <Routes>
+            <Route path="/" exact element={<Home />} />
+            <Route path="/khoa" element={<Department />} />
+            <Route path="/post_info/:id" element={<PostItem />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </>
   );
 }
 

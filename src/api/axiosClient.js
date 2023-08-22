@@ -1,33 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 
-const axiosClient = axios.create({
-    baseUrl: 'http://localhost:8088/OUAdmission/',
-    headers: {
-        'Content-Type': 'application/json',
-    },
+const SERVER_CONTEXT = "/OUAdmissions";
+
+export const endpoints = {
+  type: `${SERVER_CONTEXT}/api/type`,
+  postInfo: `${SERVER_CONTEXT}/api/post_info/` ,
+  post1: `${SERVER_CONTEXT}/api/listGet5Post/1`,
+  post2: `${SERVER_CONTEXT}/api/listGet5Post/2`,
+  post3: `${SERVER_CONTEXT}/api/listGet5Post/3`,
+  post4: `${SERVER_CONTEXT}/api/listGet5Post/4`,
+  post5: `${SERVER_CONTEXT}/api/listGet5Post/5`,
+  departs: `${SERVER_CONTEXT}/api/listDepartment`,
+};
+
+export default axios.create({
+  baseURL: "http://localhost:8080",
 });
-
-// Interceptors
-// Add a request interceptor
-axiosClient.interceptors.request.use(
-  function (config) {
-    // Do something before request is sent
-    return config;
-  }, function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  });
-
-// Add a response interceptor
-axiosClient.interceptors.response.use(
-  function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-    return response.data;
-  }, function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
-    return Promise.reject(error);
-  });
-
-export default axiosClient;

@@ -1,0 +1,11 @@
+ul.ListPostTS {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 10px;
+}
+li {
+  width: 33%;
+  list-style: none;
+  padding: 10px;
+  text-align: justify;
+}
