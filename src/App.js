@@ -26,6 +26,7 @@ const App = () => {
     MyUserReducer,
     cookie.load("user") || null
   );
+  document.title = "OUAdmissons";
 
   return (
     <>
@@ -38,7 +39,7 @@ const App = () => {
               <Route path="/" exact element={<Home />} />
               <Route path="/khoa" element={<Department />} />
               <Route path="/post_by_Type/:id" element={<PostByType />} />
-              <Route path="/post_info/:id" element={<postItem />} />
+              <Route path="/post_info/:id" element={<PostItem />} />
               <Route path="/depart_info/:id" element={<DepartItem />} />\
               <Route
                 path="/questionAndAnswer"

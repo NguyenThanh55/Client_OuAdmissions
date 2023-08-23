@@ -5,7 +5,7 @@ const SERVER_CONTEXT = "/OUAdmissions";
 const SERVER = "http://localhost:8080";
 
 export const endpoints = {
-  type: `${SERVER_CONTEXT}/api/type`,
+  type: `${SERVER_CONTEXT}/api/types/type`,
   postInfo: `${SERVER_CONTEXT}/api/post_info/` ,
   post1: `${SERVER_CONTEXT}/api/getList5Post/1`,
   post2: `${SERVER_CONTEXT}/api/getList5Post/2`,
