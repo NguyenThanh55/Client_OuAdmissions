@@ -63,19 +63,19 @@ const Header = () => {
                     </NavDropdown>
                     <Link to="/khoa" className='nav-link'>Thông tin khoa ngành</Link>
                     <Link to="/questionAndAnswer" className='nav-link'>Q&A</Link>
+                    <Link to="/chat" className='nav-link'>Tư vấn trực tiếp</Link>
                 </Nav>
                 {user === null ? <>
                     <Button style={{ margin: "1%" }} variant="outline-info"><Link to="/register" className='text-white'>Đăng ký</Link></Button>{' '}
                     <Button style={{ margin: "1%" }} variant="outline-info"><Link to="/login" className='text-white'>Đăng nhập</Link></Button>{' '}
                 </> : <>
-                    <Row style={{ width: "15%" }}>
-                        <Col xs={6} style={{ width: "90%" }}>
-                            {/* <Image style={{ width: "100%" }} src='https://tuyensinh.ou.edu.vn/media/photos/media/logo/logo-w1.png' rounded alt='Logo' /> */}
-                            <Image style={{ width: "100%" }} src={user.avatar} rounded alt='Logo' />
+                    <Row >
+                        <Col>
+                            <Image src={user.avatar} roundedCircle style={{width: 50, height: 50, borderRadius: 50/ 2}} />
                         </Col>
                     </Row>
                     <Button variant="outline-info"><Link to="/" className='text-white'>{user.username}</Link></Button>{' '}
-                    <Button variant="outline-info" onClick={logout}>Đăng xuất</Button>{' '}
+                    <Button variant="outline-info" style={{ margin: "1%" }}  onClick={logout}>Đăng xuất</Button>{' '}
                 </>}
                 </Container>
             </Navbar >

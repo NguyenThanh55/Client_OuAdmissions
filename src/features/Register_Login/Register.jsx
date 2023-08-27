@@ -38,13 +38,6 @@ const Register = () => {
                     "password": password,
                     "phone":phone,
                     "email":email
-                    // method: 'POST',
-                    // headers: {
-                    //     'Accept': 'application/json',
-                    //     'Content-Type': 'application/json'
-                    // },
-                    // mode: 'no-cors',
-                    // body: JSON.stringify(regobj)
                 })
                 console.log(res);
             } catch (ex) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 // import AlbumFeature from "../Album";
 import './home.scss';
 import ListPost1 from "../Post/ListPost1";
@@ -9,9 +9,16 @@ import ListPost5 from "../Post/ListPost5";
 import { useSearchParams } from "react-router-dom";
 import axiosClient, { endpoints } from "../../api/axiosClient";
 import Banner from "../Banner/Banner";
+import { MyUserContext } from '../../App';
+
+
+
+
 const Home = () => {
+  const [user, dispatch] = useContext(MyUserContext);
   const [posts, setPosts] = useState(null);
   const [q] = useSearchParams();
+  // console.log(user['avatar']);
   useEffect(() => {
     let loadPosts = async () => {
       try {
