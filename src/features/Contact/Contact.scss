@@ -1,0 +1,518 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 1rem;
+  /* 16px */
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+:root {
+  --fontColer: #094183;
+  --coursesColor: #edf2f5;
+  --fontSize-Heading: 2.4rem;
+  --fontSize-Content: 1.1rem;
+}
+
+body {
+  /* font-family: 'Roboto', sans-serif; */
+  font-size: 15px;
+  line-height: 1.6;
+  /*tao khoảng cách giauwx các phần tử */
+  color: #333;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  /*bỏ gạch chân*/
+  color: #333;
+}
+
+.container {
+  justify-content: space-between;
+}
+
+main.container {
+  display: flex;
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------------- */
+/* header styles */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--mainColor);
+  height: 76px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.4);
+  z-index: 99;
+}
+
+div.logo {
+  height: 100%;
+}
+
+div.logo img {
+  height: 100%;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+ul.menu {
+  display: flex;
+}
+
+ul.menu li {
+  display: block;
+  margin-right: 1.6rem;
+  font-size: 1.4rem;
+}
+
+/* TEST OPEN NAV */
+.open-nav {
+  display: block;
+}
+
+/* Bi thay doi height cua ul khi hover cac li => problem ? */
+/* ul.menu li:hover {
+	border-bottom: 2px solid #fff;
+} */
+
+i.icon-style {
+  color: #fff;
+}
+
+ul.menu > li > a {
+  text-decoration: none;
+  color: #fff;
+}
+
+div.search-icon {
+  padding: 1rem 0.8rem;
+}
+
+.search-icon > a > i {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-top: 1.5rem;
+}
+
+/* -------------------------------------------------------------------------------------------------------------------------------- */
+/* banner styles */
+.banner {
+  //   background: url("/contact.jpg") top center / cover no-repeat;
+  background-color: #035691;
+  margin-top: 76px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.banner-text {
+  max-width: 600px;
+  margin: 0 auto;
+  color: #fff;
+  text-shadow: 3px 3px 6px #07135a;
+}
+
+.banner-text h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+.banner-text p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.btn {
+  display: inline-block;
+  background-color: var(--fontColer);
+  color: #fff;
+  padding: 10px 30px;
+  /* border-radius: 50px; */
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #fff;
+  color: var(--fontColer);
+  border: 1px solid var(--fontColer);
+  text-shadow: none;
+}
+
+/* -------------------------------------- */
+/* phần bức thư */
+.mess {
+  width: 40%;
+  max-height: 579.08px;
+  background: #ebf5fb;
+  padding: 1.8rem;
+  border-radius: 20px;
+  margin-right: 2rem;
+  box-shadow: 5px 10px 8px #888888;
+}
+
+.help-heading p {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #222;
+  font-weight: bold;
+}
+
+/* SUCCESS TITLE */
+.success-message {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.success-message p {
+  font-weight: 700;
+  color: red;
+}
+
+.input-container {
+  position: relative;
+  margin-top: 2.2rem;
+  text-align: center;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  pointer-events: none;
+}
+
+input[type="text"]:focus + label,
+input[type="text"]:valid + label {
+  top: -10px;
+  transform: translateY(0%);
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--fontColer);
+  /* box-shadow:  10px 10px 10px var(--coursesColor); */
+  border-color: #07135a;
+}
+
+.mess button {
+  background-color: #035691;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 10rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.mess button:hover {
+  background-color: #5dade2;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 50px;
+  color: #333;
+}
+
+input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="email"]:focus {
+  outline: none;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+label[for="email"] {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  pointer-events: none;
+}
+
+input[type="email"]:focus + label,
+input[type="email"]:valid + label {
+  top: -10px;
+  transform: translateY(0%);
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--fontColer);
+}
+
+.input-container textarea {
+  width: 100%;
+  border-radius: 3px;
+  outline: none;
+  padding: 1rem;
+}
+
+/* -------------------------------------- */
+/* phần câu hỏi */
+.container-question {
+  width: 60%;
+  background: #ebf5fb;
+  padding: 1.8rem;
+  border-radius: 20px;
+  box-shadow: 5px 10px 8px #888888;
+}
+
+.ques-item:first-child {
+  border: none;
+}
+
+/* TEST */
+.main-container__bg {
+  background-color: #f2f5ff;
+}
+
+.main-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 5rem 0;
+}
+
+/* ====================== Câu Hỏi Thường Gặp =============== */
+.section-ques h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 10px;
+}
+
+.ques {
+  font-size: 0.9rem;
+  padding: 1rem 0.5rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #035691;
+  border-radius: 4px;
+}
+
+.ques-items {
+  margin-top: 2.5rem;
+}
+
+.section-ques .ques-item .ans {
+  /* display: none; */
+  max-height: 0;
+  opacity: 0;
+  font-style: italic;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.section-ques .ques-item .ans.show {
+  /* display: block; */
+  background-color: #d8efff;
+  max-height: 200px;
+  opacity: 1;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 0;
+  border-radius: 3px 3px 5px 5px;
+}
+
+.section-ques .ques-item {
+  position: relative;
+  cursor: pointer;
+  margin: 0.3rem 1.2rem;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.section-ques .ques-item .arrow-circle {
+  position: absolute;
+  right: 11px;
+  transition: transform 0.5s ease;
+  border-radius: 50%;
+  background-color: #fff;
+  padding: 0.1rem 0.4rem;
+  text-align: center;
+  color: #035691;
+  font-weight: 900;
+}
+
+.section-ques .ques-item .arrow-circle i {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  transition: transform 0.5s ease;
+}
+
+.section-ques .ques-item .arrow-circle i.rotate {
+  transform: rotate(180deg);
+}
+
+/* ADDRESS + MAP */
+.location {
+  width: 80%;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.it-major-header h2 {
+  color: #000;
+  font-size: 2.4rem;
+  text-align: center;
+  letter-spacing: 1px;
+  margin: 0.8rem 0;
+}
+
+.it-major-header p {
+  color: #000;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  font-style: italic;
+}
+
+.address-items {
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.address-item {
+  width: 46%;
+}
+
+.address-item h3 {
+  font-size: 1.2rem;
+}
+
+.address-info {
+  padding: 1rem 0;
+}
+
+.map {
+  margin-top: 1rem;
+}
+
+.map iframe {
+  width: 100%;
+}
+
+.district {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.info li {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* FOOTER */
+footer {
+  background-color: var(--mainColor) !important;
+  /* background:  url("../images/Picture1.jpg"), bottom center / cover, no-repeat; */
+}
+
+.container-footer {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.container-footer span {
+  margin-left: 0.5rem;
+}
+
+.top-footer {
+  display: flex;
+  align-items: center;
+  /* padding: 6rem 0 3rem 0; */
+  border-bottom: 1px solid #757474;
+}
+
+.top-footer > div:first-child img {
+  width: 100%;
+}
+
+.top-footer-contact,
+.top-footer-contact a,
+.top-footer-contact i,
+.top-footer-contact span {
+  color: #fff;
+}
+
+.top-footer-contact a:hover {
+  color: #797a97;
+}
+
+.top-footer-contact p {
+  margin: 0.5rem 0;
+}
+
+.flex {
+  display: flex;
+}
+
+.mid-footer {
+  padding: 4rem 0 2rem 0;
+  border-bottom: 1px solid #757474;
+}
+
+.mid-footer div:first-child {
+  padding-left: 18px;
+}
+
+.bottom-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 0;
+}
+
+.bottom-footer h3,
+.bottom-footer p {
+  color: #fff;
+  font-weight: normal;
+}

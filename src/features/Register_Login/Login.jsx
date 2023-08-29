@@ -4,6 +4,7 @@ import { Link, Navigate } from 'react-router-dom';
 import axiosClient, { authApi, endpoints } from '../../api/axiosClient';
 import cookie from "react-cookies";
 import { MyUserContext } from '../../App';
+import './style.scss';
 
 const Login = () => {
     const [user, dispatch] = useContext(MyUserContext)
@@ -53,13 +54,11 @@ const Login = () => {
                         <Card className="shadow">
                             <Card.Body>
                                 <div className="mb-3 mt-md-4">
-                                    <h2 className="fw-bold mb-2 text-uppercase ">Đăng nhập</h2>
+                                    <h2 className="fw-bold mb-2 text-uppercase text-center">Đăng nhập</h2>
                                     <div className="mb-3">
                                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                <Form.Label className="text-center">
-                                                    Tên đăng nhập
-                                                </Form.Label>
+                                                <p className=" textDky">Tên đăng nhập</p>
                                                 <Form.Control
                                                     required
                                                     type="text"
@@ -77,7 +76,7 @@ const Login = () => {
                                                 className="mb-3"
                                                 controlId="formBasicPassword"
                                             >
-                                                <Form.Label>Mật khẩu</Form.Label>
+                                                <p className=" textDky">Mật khẩu</p>
                                                 <Form.Control
                                                     required
                                                     type="password"

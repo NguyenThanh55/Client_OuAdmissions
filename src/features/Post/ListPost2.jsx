@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 const ListPost2 = () => {
     const [ListPost, setPostState1] = useState([])
+    const typeOfPost = 2;
 
     useEffect(() => {
         const getPost = async () => {
@@ -41,7 +42,7 @@ const ListPost2 = () => {
             <li>
                 <Card className='card_post'>
                     <Card.Body>
-                        <Card.Title><Link className='deco_post' to={`/post_by_Type/2`}>Xem thêm</Link></Card.Title>
+                        <Card.Title><Link className='deco_post' to={`/post_by_Type/${typeOfPost}`}>Xem thêm</Link></Card.Title>
                     </Card.Body>
                 </Card>
             </li>

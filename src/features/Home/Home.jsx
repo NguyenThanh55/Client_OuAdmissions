@@ -10,32 +10,31 @@ import { useSearchParams } from "react-router-dom";
 import axiosClient, { endpoints } from "../../api/axiosClient";
 import Banner from "../Banner/Banner";
 const Home = () => {
-  const [posts, setPosts] = useState(null);
-  const [q] = useSearchParams();
-  useEffect(() => {
-    let loadPosts = async () => {
-      try {
-        let e = endpoints['post'];
+  // const [posts, setPosts] = useState(null);
+  // const [q] = useSearchParams();
+  // useEffect(() => {
+  //   let loadPosts = async () => {
+  //     try {
+  //       let e = endpoints['post'];
 
-        let typeId = q.get("typeId");
-        if (typeId !== null)
-          e = `${e}?typeId=${typeId}`;
+  //       let typeId = q.get("typeId");
+  //       if (typeId !== null)
+  //         e = `${e}?typeId=${typeId}`;
 
-        let res = await axiosClient.get(e);
-        setPosts(res.data);
-      } catch (ex) {
-        console.error(ex);
-      }
-    }
+  //       let res = await axiosClient.get(e);
+  //       setPosts(res.data);
+  //     } catch (ex) {
+  //       console.error(ex);
+  //     }
+  //   }
 
-    loadPosts();
+  //   loadPosts();
 
-  }, [q])
+  // }, [q])
 
   return (
     <>
-      
-      <h1 class="text-center text-info mt-1">THÔNG TIN TUYỂN SINH</h1>
+      <h1 className="text-center text-info mt-1">THÔNG TIN TUYỂN SINH</h1>
       <h2 className="title" id="1" >Hệ chính quy</h2>
       <ListPost1 />
       <h2 className="title" id="2" >Hệ liên thông</h2>

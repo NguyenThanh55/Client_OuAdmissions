@@ -4,7 +4,7 @@ import axiosClient, { endpoints } from '../../api/axiosClient';
 import { Link } from 'react-router-dom';
 
 const TypeFeature = () => {
-    const [typeList, setTypeState] = useState([])
+    const [typeList, setTypeState] = useState([]);
 
     useEffect(() => {
         const getType = async () => {
@@ -25,6 +25,8 @@ const TypeFeature = () => {
 
                 // <NavDropdown.Item href={`#${type.id}`} key={type.id}>{type.name}</NavDropdown.Item >
                 let h = `/?typeId=${type.id}`;
+                // let h = `/${type.id}`;
+                // return <a href={`/#${type.id}`} className="dropdown-item" key={type.id}>{type.name}</a>
                 return <Link to={h} className="dropdown-item" key={type.id}>{type.name}</Link>
             })}
         </>

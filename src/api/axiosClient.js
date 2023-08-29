@@ -2,11 +2,11 @@ import axios from "axios";
 import cookie from "react-cookies";
 
 const SERVER_CONTEXT = "/OUAdmissions";
-const SERVER = "http://localhost:8080";
+const SERVER = "http://localhost:8088";
 
 export const endpoints = {
   type: `${SERVER_CONTEXT}/api/type`,
-  postInfo: `${SERVER_CONTEXT}/api/post_info/` ,
+  postInfo: `${SERVER_CONTEXT}/api/post_info/`,
   post1: `${SERVER_CONTEXT}/api/getList5Post/1`,
   post2: `${SERVER_CONTEXT}/api/getList5Post/2`,
   post3: `${SERVER_CONTEXT}/api/getList5Post/3`,
@@ -18,9 +18,12 @@ export const endpoints = {
   departInfo: `${SERVER_CONTEXT}/api/departments/department_info/`,
   login: `${SERVER_CONTEXT}/api/login/`,
   "current-user": `${SERVER_CONTEXT}/api/current-user/`,
-  "register-user": `${SERVER_CONTEXT}/api/register-user/`
-
-}
+  "register-user": `${SERVER_CONTEXT}/api/register-user/`,
+  commentByPost: `${SERVER_CONTEXT}/api/listCommentByPost/`,
+  addComment: `${SERVER_CONTEXT}/api/addComment`,
+  updateComment: `${SERVER_CONTEXT}/api/updateComment/`,
+  deleteComment: `${SERVER_CONTEXT}/api/deleteComment/`,
+};
 export const authApi = () => {
   return axios.create({
     baseURL: SERVER,
@@ -29,7 +32,6 @@ export const authApi = () => {
     },
   });
 };
-
 
 export default axios.create({
   baseURL: SERVER,

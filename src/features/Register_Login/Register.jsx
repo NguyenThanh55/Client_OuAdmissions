@@ -1,60 +1,110 @@
-import React, { useState } from 'react';
-import { Col, Button, Row, Container, Card, Form, Toast } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
+import { Col, Button, Row, Container, Card, Form, Toast, Alert } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 import axiosClient, { endpoints } from '../../api/axiosClient';
 import { toast } from 'react-toastify';
-
+import './style.scss';
 const Register = () => {
     const [validated, setValidated] = useState(false);
 
-    const [firstName, setfirstName] = useState();
-    const [lastName, setlastName] = useState();
-    const [phone, setphone] = useState();
-    const [email, setemail] = useState();
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [confimPassword, setConfimPassword] = useState();
+    // const [firstName, setfirstName] = useState();
+    // const [lastName, setlastName] = useState();
+    // const [phone, setphone] = useState();
+    // const [email, setemail] = useState();
+    // const [username, setUsername] = useState();
+    // const [password, setPassword] = useState();
+    // const [confimPassword, setConfimPassword] = useState();
 
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        event.preventDefault();
+    // const handleSubmit = (event) => {
+    //     const form = event.currentTarget;
+    //     event.preventDefault();
+
+    //     if (form.checkValidity() === false) {
+    //         event.stopPropagation();
+    //     }
+
+    //     setValidated(true);
+    // let regobj = {
+    //     firstName, lastName, phone,
+    //     email, username, password
+    // };
+    //     const process = async () => {
+    //         console.log(firstName, lastName, username, password, email, phone)
+    //         try {
+    //             let res = await axiosClient.post(endpoints['register-user'], {
+    //                 "firstName": firstName,
+    //                 "lastName": lastName,
+    //                 "username": username,
+    //                 "password": password,
+    //                 "phone": phone,
+    //                 "email": email
+    //                 // method: 'POST',
+    //                 // headers: {
+    //                 //     'Accept': 'application/json',
+    //                 //     'Content-Type': 'application/json'
+    //                 // },
+    //                 // mode: 'no-cors',
+    //                 // body: JSON.stringify(regobj)
+    //             })
+    //             console.log(res);
+    //         } catch (ex) {
+    //             console.error(ex);
+    //         }
+    //     }
+    //     process();
+
+    const [user, setUser] = useState({
+        username: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        confirmPassword: "",
+    });
+    const [err, setErr] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const avatar = useRef();
+    const nav = useNavigate();
+
+    const register = (evt) => {
+        const form = evt.currentTarget;
+        evt.preventDefault();
 
         if (form.checkValidity() === false) {
-            event.stopPropagation();
+            evt.stopPropagation();
         }
 
         setValidated(true);
-        let regobj = {
-            firstName, lastName, phone,
-            email, username, password
-        };
+
         const process = async () => {
-            console.log(firstName,lastName,username,password,email,phone)
-            try {
-                let res = await axiosClient.post(endpoints['register-user'], {
-                    "firstName":firstName,
-                    "lastName":lastName,
-                    "username": username,
-                    "password": password,
-                    "phone":phone,
-                    "email":email
-                    // method: 'POST',
-                    // headers: {
-                    //     'Accept': 'application/json',
-                    //     'Content-Type': 'application/json'
-                    // },
-                    // mode: 'no-cors',
-                    // body: JSON.stringify(regobj)
-                })
-                console.log(res);
-            } catch (ex) {
-                console.error(ex);
-            }
+            let form = new FormData();
+
+            for (let field in user)
+                if (field !== "confirmPassword") form.append(field, user[field]);
+
+            form.append("avatar", avatar.current.files[0]);
+
+            setLoading(true);
+            let res = await axiosClient.post(endpoints["register-user"], form);
+            if (res.status === 200) {
+                nav("/login");
+            } else setErr("Hệ thống bị lỗi!");
+        };
+        console.log(user.password);
+        console.log(user.confirmPassword);
+
+        if (user.password === user.confirmPassword) process();
+        else {
+            setErr("Mật khẩu không khớp!");
         }
-        process();
     };
 
-
+    const change = (evt, field) => {
+        setUser((current) => {
+            return { ...current, [field]: evt.target.value };
+        });
+    };
 
     return (
         <>
@@ -69,15 +119,15 @@ const Register = () => {
                                         <h2 className="fw-bold mb-2 text-center text-uppercase ">
                                             Đăng ký
                                         </h2>
+                                        {err === null ? "" : <Alert variant="danger">{err}</Alert>}
                                         <div className="mb-3">
-                                            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                                            <Form noValidate validated={validated} onSubmit={register}>
                                                 <Form.Group className="mb-3" controlId="LastName">
-                                                    <Form.Label className="text-center">Tên</Form.Label>
+                                                    <p className=" textDky">Tên</p>
                                                     <Form.Control
                                                         required
                                                         type="text"
-                                                        value={firstName}
-                                                        onChange={e => setfirstName(e.target.value)}
+                                                        onChange={(e) => change(e, "firstName")}
                                                         placeholder="Nhập tên ..." />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
@@ -86,12 +136,11 @@ const Register = () => {
                                                 </Form.Group>
 
                                                 <Form.Group className="mb-3" controlId="firstName">
-                                                    <Form.Label className="text-center">Họ</Form.Label>
+                                                    <p className=" textDky">Họ</p>
                                                     <Form.Control
                                                         required
                                                         type="text"
-                                                        value={lastName}
-                                                        onChange={e => setlastName(e.target.value)}
+                                                        onChange={(e) => change(e, "lastName")}
                                                         placeholder="Nhập họ ..." />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
@@ -100,14 +149,11 @@ const Register = () => {
                                                 </Form.Group>
 
                                                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                    <Form.Label className="text-center">
-                                                        Email
-                                                    </Form.Label>
+                                                    <p className=" textDky">Email</p>
                                                     <Form.Control
                                                         required
                                                         type="email"
-                                                        value={email}
-                                                        onChange={e => setemail(e.target.value)}
+                                                        onChange={(e) => change(e, "email")}
                                                         placeholder="Nhập địa chỉ email ..." />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
@@ -116,12 +162,11 @@ const Register = () => {
                                                 </Form.Group>
 
                                                 <Form.Group className="mb-3" controlId="phone">
-                                                    <Form.Label className="text-center">Số điện thoại</Form.Label>
+                                                    <p className=" textDky">Số điện thoại</p>
                                                     <Form.Control
                                                         required
                                                         type="number"
-                                                        value={phone}
-                                                        onChange={e => setphone(e.target.value)}
+                                                        onChange={(e) => change(e, "phone")}
                                                         placeholder="Nhập số điện thoại ..." />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
@@ -130,12 +175,11 @@ const Register = () => {
                                                 </Form.Group>
 
                                                 <Form.Group className="mb-3" controlId="username">
-                                                    <Form.Label className="text-center">Tên đăng nhập</Form.Label>
+                                                    <p className=" textDky">Tên đăng nhập</p>
                                                     <Form.Control
                                                         required
                                                         type="text"
-                                                        value={username}
-                                                        onChange={e => setUsername(e.target.value)}
+                                                        onChange={(e) => change(e, "username")}
                                                         placeholder="Nhập tên đăng nhập ..." />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
@@ -147,13 +191,12 @@ const Register = () => {
                                                     className="mb-3"
                                                     controlId="formBasicPassword"
                                                 >
-                                                    <Form.Label>Mật khẩu</Form.Label>
+                                                    <p className=" textDky">Mật khẩu</p>
                                                     <Form.Control
                                                         required
                                                         type="password"
-                                                        value={password}
-                                                        onChange={e => setPassword(e.target.value)}
-                                                        placeholder="Password" />
+                                                        onChange={(e) => change(e, "password")}
+                                                        placeholder="Mật khẩu ..." />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
                                                         Vui lòng mật khẩu!!!
@@ -163,17 +206,23 @@ const Register = () => {
                                                     className="mb-3"
                                                     controlId="formBasicConfirmPassword"
                                                 >
-                                                    <Form.Label>Xác nhận mật khẩu</Form.Label>
+                                                    <p className=" textDky">Xác nhận mật khẩu</p>
                                                     <Form.Control
                                                         required
                                                         type="password"
-                                                        value={confimPassword}
-                                                        onChange={e => setConfimPassword(e.target.value)}
-                                                        placeholder="Password" />
+                                                        onChange={(e) => change(e, "confirmPassword")}
+                                                        placeholder="Xác nhận mật khẩu ..." />
                                                     <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
                                                         Vui lòng xác nhận mật khẩu!!!
                                                     </Form.Control.Feedback>
+                                                </Form.Group>
+                                                <Form.Group
+                                                    className="mb-3"
+                                                    controlId="formBasicAvatar"
+                                                >
+                                                    <p className=" textDky">Ảnh đại diện</p>
+                                                    <Form.Control type='file' ref={avatar} />
                                                 </Form.Group>
                                                 <Form.Group
                                                     className="mb-3"
