@@ -1,4 +1,4 @@
-import { Container, Form } from "react-bootstrap";
+import { Container, Alert, Button } from "react-bootstrap";
 import Message from "./Message"
 import { collection, query, where, onSnapshot, orderBy, limit } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -11,8 +11,9 @@ const ChatBox = () => {
     const [messages, setMessages] = useState([]);
     const [user, dispatch] = useContext(MyUserContext);
 
+    const url_collection = "messages/" + user['username'] + "/chat"
     useEffect(() => {
-        const q = query(collection(db, "messages"), orderBy("createdAt"), limit(50));
+        const q = query(collection(db, url_collection) ,orderBy("createdAt"), limit(50));
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const massages = []; 
             snapshot.forEach((doc) => {
@@ -22,6 +23,14 @@ const ChatBox = () => {
         });
         return () => unsubscribe;
     }, []);
+
+    if(Object.keys(messages).length === 0){
+        return (
+            <Container className="mt-3">
+                <Alert variant="success">Hãy bắt đầu đoạn hội thoại</Alert>
+            </Container>
+        );
+    }
 
     return (
         <Container>

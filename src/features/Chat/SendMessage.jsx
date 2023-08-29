@@ -1,13 +1,14 @@
 import { Container, Form } from "react-bootstrap";
 import React, { useContext, useState } from 'react';
 import { MyUserContext } from '../../App';
-import {addDoc, collection, query, where, onSnapshot, serverTimestamp } from "firebase/firestore";
+import {addDoc, collection, serverTimestamp } from "firebase/firestore";
 import {db} from "../../firebase"
-import Alert from 'react-bootstrap/Alert';
+
 
 const SendMessage = () => {
     const [message, setMessage] = useState("");
     const [user, dispatch] = useContext(MyUserContext);
+    const url_collection = "messages/" + user['username'] + "/chat"
     
     const handleSendMessage = async (e) => {
         e.preventDefault();
@@ -19,7 +20,7 @@ const SendMessage = () => {
 
         try {
             const uid = user['id']
-            await addDoc(collection(db, "messages"), {
+            await addDoc(collection(db, url_collection), {
                 text: message,
                 name: user['username'],
                 avatar: user['avatar'],

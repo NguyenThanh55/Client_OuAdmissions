@@ -39,7 +39,6 @@ const Register = () => {
                     "phone":phone,
                     "email":email
                 })
-                console.log(res);
             } catch (ex) {
                 console.error(ex);
             }
