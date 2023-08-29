@@ -13,13 +13,13 @@ import { createContext, useReducer } from "react";
 import cookie from "react-cookies";
 import MyUserReducer from "./features/Register_Login/reducers/MyUserReducer";
 import Search from "./features/Search/Search";
+import ChatRoom from "./features/Chat/ChatRoom.jsx";
 import PostByType from "./features/Post/PostByType";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import PostItem from "./features/Post/postItem";
 import Contact from "./features/Contact/Contact";
-
 export const MyUserContext = createContext();
 
 const App = () => {
@@ -27,6 +27,7 @@ const App = () => {
     MyUserReducer,
     cookie.load("user") || null
   );
+  document.title = "OUAdmissons";
 
   return (
     <>
@@ -50,6 +51,7 @@ const App = () => {
                 <Route path="/search" element={<Search />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/chat" element={<ChatRoom />} />
               </Routes>
             </Container>
 

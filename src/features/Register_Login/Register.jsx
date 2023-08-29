@@ -97,6 +97,21 @@ const Register = () => {
         if (user.password === user.confirmPassword) process();
         else {
             setErr("Mật khẩu không khớp!");
+
+            //             console.log(firstName,lastName,username,password,email,phone)
+            //             try {
+            //                 let res = await axiosClient.post(endpoints['register-user'], {
+            //                     "firstName":firstName,
+            //                     "lastName":lastName,
+            //                     "username": username,
+            //                     "password": password,
+            //                     "phone":phone,
+            //                     "email":email
+            //                 })
+            //                 console.log(res);
+            //             } catch (ex) {
+            //                 console.error(ex);
+            //             }
         }
     };
 

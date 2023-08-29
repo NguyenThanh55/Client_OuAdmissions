@@ -108,10 +108,8 @@ const Comment = (props) => {
 
     return (
         <>
-            <div>Id: {postId}</div>
             <Row className="vh-500 d-flex justify-content-center align-items-center">
                 <CommentForm submitLabel="Bình luận" handleSubmit={addComment} reply={reply} />
-                <div>--------Danh sách bình luận------------</div>
                 {listComment.map(cmt => (
                     <CommentItem
                         key={cmt.id}
