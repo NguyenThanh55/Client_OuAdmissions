@@ -4,8 +4,9 @@
   padding: 0 10px;
   margin-bottom: 0;
   li:first-child {
-    width: 10%;
+    // width: 10%;
     padding: 10px;
+    border-radius: 10%;
   }
   li:nth-child(2) {
     width: 80%;

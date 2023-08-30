@@ -93,7 +93,8 @@ const CommentItem = (props, { replyId = 0 }) => {
                 <ul key={props.cmt.id} className='form-comment' >
                     <li>
                         <Row>
-                            <Image style={{ width: "100%" }} src={props.cmt.userId.avatar} roundedCircle alt='Logo' />
+                            <Image src={props.cmt.userId.avatar} roundedCircle style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />
+                            {/* <Image style={{ width: "100%" }} src={props.cmt.userId.avatar} roundedCircle alt='Logo' /> */}
                         </Row>
                     </li>
                     <li>
@@ -179,7 +180,8 @@ const CommentItem = (props, { replyId = 0 }) => {
                                             <CommentItem
                                                 key={cmtReply.id}
                                                 cmt={cmtReply}
-                                                listCmtReplies={[]}
+                                                getReplies={props.getReplies}
+                                                listCmtReplies={props.getReplies(cmtReply.id)}
                                                 updateComment={props.updateComment}
                                                 setListCmt={props.setListCmt}
                                                 deleteComment={props.deleteComment}

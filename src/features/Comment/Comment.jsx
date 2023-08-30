@@ -48,40 +48,6 @@ const Comment = (props) => {
         process();
     }
 
-    // const updateComment = (commentId) => {
-
-    //     const process = async () => {
-    //         console.log(">>>>>>>> bắt đầu");
-    //         const data = await axiosClient.post(`${endpoints['updateComment']}${commentId}`, {
-    //             "id": commentId,
-    //             "content": content,
-    //         });
-    //         // .then(() => {
-    //         //     let updateListComment = listComment.map(cmt => {
-    //         //         if (cmt.id === commentId)
-    //         //             return { ...cmt, content: content };
-    //         //         return cmt;
-    //         //     })
-    //         console.log(data);
-    //         setListCmt(listComment => {
-    //             const updatedListComment = listComment.map(cmt => {
-    //                 if (cmt.id === commentId) {
-    //                     return { ...cmt, content: content };
-    //                 }
-    //                 return cmt;
-    //             });
-    //             return updatedListComment;
-    //         });
-    //         console.log(listComment);
-    //     };
-
-    // setListCmt([...listComment, data]);
-    //     setContentState("");
-    //     setActiveCmt(null);
-    //     console.log(">>>>>>> kết thúc update");
-    //     process();
-    // };
-
     const deleteComment = (cmtId) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa bình luận này?")) {
             axiosClient.delete(`${endpoints['deleteComment']} + ${cmtId}`)
@@ -91,23 +57,6 @@ const Comment = (props) => {
         }
     }
 
-    // const submitReplyComment = (commentId, content) => {
-    //     event.preventDefault();
-    //     try {
-    //         let res = await axiosClient.post(endpoints['addComment'], {
-    //             "content": content,
-    //             "userId": user.id,
-    //             "postId": props.cmt.postId,
-    //             "reply": props.cmt.id
-    //         })
-    //         // console.log(res);
-    //         setListCmt([...listComment, res.data]);
-    //     } catch (ex) {
-    //         console.error(ex);
-    //     }
-    //     // setListCmt([...listComment, cmt])
-    //     setContentState("")
-    // };
 
     if (listComment === null)
         return (<div>Chưa có bình luận</div>)
@@ -120,7 +69,7 @@ const Comment = (props) => {
                     <ul className='form-comment'>
                         <li>
                             <Row>
-                                <Image style={{ width: "100%" }} src={user.avatar} roundedCircle alt='Logo' />
+                                <Image src={user.avatar} roundedCircle style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />
                             </Row>
                         </li>
                         <li>
@@ -146,6 +95,7 @@ const Comment = (props) => {
                     <CommentItem
                         key={cmt.id}
                         cmt={cmt}
+                        getReplies={getReplies}
                         listCmtReplies={getReplies(cmt.id)}
                         deleteComment={deleteComment}
                         // updateComment={updateComment}
