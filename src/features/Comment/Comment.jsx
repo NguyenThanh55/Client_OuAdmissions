@@ -24,11 +24,16 @@ const Comment = (props) => {
             });
     }, [postId])
 
+    const comments = listComment.filter(
+        (cmt) => cmt.reply === 0
+    );
+
     const getReplies = cmtId => {
         return listComment.filter(cmt => cmt.reply === cmtId)
     }
 
-    const addComment = (content, reply) => {
+    const addComment = (e) => {
+        e.preventDefault();
         const process = async () => {
             let { data } = await axiosClient.post(endpoints['addComment'], {
                 "content": content,
@@ -43,38 +48,39 @@ const Comment = (props) => {
         process();
     }
 
-    const updateComment = (content, commentId, reply) => {
+    // const updateComment = (commentId) => {
 
-        const process = async () => {
-            console.log(">>>>>>>> bắt đầu");
-            const data = await axiosClient.put(`${endpoints['updateComment']}${commentId}`, {
-                "id": commentId,
-                "content": content,
-                "postId": postId,
-                "userId": user,
-                "reply": reply
-            });
-            // .then(() => {
-            //     let updateListComment = listComment.map(cmt => {
-            //         if (cmt.id === commentId)
-            //             return { ...cmt, content: content };
-            //         return cmt;
-            //     })
-            console.log(data);
-            setListCmt(listComment);
-            console.log(listComment);
-        };
+    //     const process = async () => {
+    //         console.log(">>>>>>>> bắt đầu");
+    //         const data = await axiosClient.post(`${endpoints['updateComment']}${commentId}`, {
+    //             "id": commentId,
+    //             "content": content,
+    //         });
+    //         // .then(() => {
+    //         //     let updateListComment = listComment.map(cmt => {
+    //         //         if (cmt.id === commentId)
+    //         //             return { ...cmt, content: content };
+    //         //         return cmt;
+    //         //     })
+    //         console.log(data);
+    //         setListCmt(listComment => {
+    //             const updatedListComment = listComment.map(cmt => {
+    //                 if (cmt.id === commentId) {
+    //                     return { ...cmt, content: content };
+    //                 }
+    //                 return cmt;
+    //             });
+    //             return updatedListComment;
+    //         });
+    //         console.log(listComment);
+    //     };
 
-        // setListCmt([...listComment, data]);
-        setContentState("");
-        setActiveCmt(null);
-        console.log(">>>>>>> kết thúc update");
-
-        process();
-    };
-
-
-
+    // setListCmt([...listComment, data]);
+    //     setContentState("");
+    //     setActiveCmt(null);
+    //     console.log(">>>>>>> kết thúc update");
+    //     process();
+    // };
 
     const deleteComment = (cmtId) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa bình luận này?")) {
@@ -86,21 +92,21 @@ const Comment = (props) => {
     }
 
     // const submitReplyComment = (commentId, content) => {
-    // event.preventDefault();
-    // try {
-    //     let res = await axiosClient.post(endpoints['addComment'], {
-    //         "content": content,
-    //         "userId": user.id,
-    //         "postId": props.cmt.postId,
-    //         "reply": props.cmt.id
-    //     })
-    //     // console.log(res);
-    //     setListCmt([...listComment, res.data]);
-    // } catch (ex) {
-    //     console.error(ex);
-    // }
-    // // setListCmt([...listComment, cmt])
-    // setContentState("")
+    //     event.preventDefault();
+    //     try {
+    //         let res = await axiosClient.post(endpoints['addComment'], {
+    //             "content": content,
+    //             "userId": user.id,
+    //             "postId": props.cmt.postId,
+    //             "reply": props.cmt.id
+    //         })
+    //         // console.log(res);
+    //         setListCmt([...listComment, res.data]);
+    //     } catch (ex) {
+    //         console.error(ex);
+    //     }
+    //     // setListCmt([...listComment, cmt])
+    //     setContentState("")
     // };
 
     if (listComment === null)
@@ -109,19 +115,44 @@ const Comment = (props) => {
     return (
         <>
             <Row className="vh-500 d-flex justify-content-center align-items-center">
-                <CommentForm submitLabel="Bình luận" handleSubmit={addComment} reply={reply} />
-                {listComment.map(cmt => (
+                {/* <CommentForm submitLabel="Bình luận" handleSubmit={addComment} /> */}
+                <Form onSubmit={addComment}>
+                    <ul className='form-comment'>
+                        <li>
+                            <Row>
+                                <Image style={{ width: "100%" }} src={user.avatar} roundedCircle alt='Logo' />
+                            </Row>
+                        </li>
+                        <li>
+                            <InputGroup>
+                                <Form.Control
+                                    as="textarea"
+                                    aria-label="With textarea"
+                                    value={content}
+                                    onChange={e => setContentState(e.target.value)}
+                                    placeholder='Nhập bình luận ... ' />
+                            </InputGroup>
+                        </li>
+                        <li>
+                            <Button
+                                variant="primary"
+                                type="submit">
+                                Bình luận
+                            </Button>
+                        </li>
+                    </ul>
+                </Form>
+                {comments.map(cmt => (
                     <CommentItem
                         key={cmt.id}
                         cmt={cmt}
                         listCmtReplies={getReplies(cmt.id)}
                         deleteComment={deleteComment}
-                        updateComment={updateComment}
+                        // updateComment={updateComment}
                         setListCmt={setListCmt}
                         listComment={listComment}
                         activeComment={activeComment}
                         setActiveCmt={setActiveCmt}
-                        reply={reply}
                     />
                 ))}
             </Row >

@@ -5,24 +5,23 @@ import { MyUserContext } from '../../App';
 const CommentForm = ({
     handleSubmit,
     submitLabel,
-    reply,
-    commentId = '',
+    // commentId = '',
     handleCancelButton = false,
     initialText = '',
     handleCancel,
 }) => {
     const [user] = useContext(MyUserContext);
     const [content, setContent] = useState(initialText);
-    console.log(commentId);
+    // console.log(commentId);
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(commentId);
-        if (commentId === '')
-            handleSubmit(content, reply);
-        if (commentId !== '')
-            handleSubmit(content, commentId, reply);
+        // console.log(content);
+        // console.log(commentId);
+        console.log(content);
+        handleSubmit(content);
         setContent("");
     }
+
     return (
         <>
             <Form onSubmit={onSubmit} >

@@ -6,7 +6,7 @@ import axiosClient, { endpoints } from '../../api/axiosClient';
 import { Link } from 'react-router-dom';
 import CommentForm from './CommentForm';
 
-const CommentItem = (props) => {
+const CommentItem = (props, { replyId = 0 }) => {
     const [user] = useContext(MyUserContext);
     const canReply = Boolean(user)
     const canEdit = user.id === props.cmt.userId.id;
@@ -17,8 +17,9 @@ const CommentItem = (props) => {
     const isEditing = props.activeComment
         && props.activeComment.type === 'editing'
         && props.activeComment.id === props.cmt.id;
-    // const reply = props.reply ? props.reply : props.cmt.id;
+    const reply = replyId ? replyId : props.cmt.id;
     let [contentReply, setContentReplyState] = useState('');
+    const [contentEdit, setContentEdit] = useState(props.cmt.content);
     const commentsRef = useRef([]);
     // console.log(props.cmt);
     // const [listCommentReply, setListCmtReply] = useState([]);
@@ -41,7 +42,7 @@ const CommentItem = (props) => {
                 "content": contentReply,
                 "userId": user,
                 "postId": props.cmt.postId,
-                "reply": props.cmt.id
+                "reply": reply
             })
             // console.log(res);
             props.setListCmt([...props.listComment, res.data]);
@@ -55,6 +56,30 @@ const CommentItem = (props) => {
 
     };
 
+    const updateComment = (e, commentId) => {
+        e.preventDefault();
+        const process = async () => {
+            console.log(">>>>>>>> bắt đầu");
+            const data = await axiosClient.post(`${endpoints['updateComment']}${commentId}`, {
+                "id": commentId,
+                "content": contentEdit,
+            });
+            console.log(data);
+            props.setListCmt(listComment => {
+                const updatedListComment = listComment.map(cmt => {
+                    if (cmt.id === commentId) {
+                        return { ...cmt, content: contentEdit };
+                    }
+                    return cmt;
+                });
+                return updatedListComment;
+            });
+            console.log(props.listComment);
+        };
+        process();
+        props.setActiveCmt(null);
+    }
+
     if (props.listCmtReplies === null)
         return (<div>Chua co binh luan nao</div>)
 
@@ -63,46 +88,50 @@ const CommentItem = (props) => {
     return (
         <>
             <Row className="vh-500 d-flex justify-content-center align-items-center">
-                <Form onSubmit={submitReplyComment}>
-                    {/* style={{ borderLeft: '1px solid black' }} */}
-                    <ul className='form-comment' >
-                        <li>
-                            <Row>
-                                <Image style={{ width: "100%" }} src={props.cmt.userId.avatar} roundedCircle alt='Logo' />
-                            </Row>
-                        </li>
-                        <li>
-                            <div key={props.cmt.userId.id}>@{props.cmt.userId.username}</div>
-                            {!isEditing &&
-                                <>
-                                    <div key={props.cmt.id}>{props.cmt.content}</div>
-                                    <div>
-                                        {canReply && <Link
-                                            className='btn_Comment'
-                                            variant="primary"
-                                            type='button'
-                                            onClick={() => props.setActiveCmt({ id: props.cmt.id, type: "replying" })}
-                                        >
-                                            Trả lời
-                                        </Link>}
-                                        {canEdit && <Link
-                                            className='btn_Comment'
-                                            variant="primary"
-                                            type='button'
-                                            onClick={() => props.setActiveCmt({ id: props.cmt.id, type: "editing" })}
-                                        >
-                                            Chỉnh sửa
-                                        </Link>}
-                                        {canDelete && <Link
-                                            id='button-delete-comment'
-                                            className='btn_Comment '
-                                            variant="primary"
-                                            type='button'
-                                            onClick={() => props.deleteComment(props.cmt.id)}
-                                        >
-                                            Xóa
-                                        </Link>}
-                                        {isReplying && (
+
+                {/* style={{ borderLeft: '1px solid black' }} */}
+                <ul key={props.cmt.id} className='form-comment' >
+                    <li>
+                        <Row>
+                            <Image style={{ width: "100%" }} src={props.cmt.userId.avatar} roundedCircle alt='Logo' />
+                        </Row>
+                    </li>
+                    <li>
+                        <div key={props.cmt.userId.id}>@{props.cmt.userId.username}</div>
+                        {!isEditing &&
+                            <>
+                                <div>{props.cmt.content}</div>
+                                <div>
+                                    {canReply && <Link
+                                        className='btn_Comment'
+                                        variant="primary"
+                                        type='button'
+                                        onClick={() => props.setActiveCmt({ id: props.cmt.id, type: "replying" })}
+                                    >
+                                        Trả lời
+                                    </Link>}
+                                    {canEdit && <Link
+                                        className='btn_Comment'
+                                        variant="primary"
+                                        type='button'
+                                        // onClick={() => props.setActiveCmt({ id: props.cmt.id, type: "editing" })}
+                                        onClick={() => {
+                                            props.setActiveCmt({ id: props.cmt.id, type: "editing" })
+                                        }}
+                                    >
+                                        Chỉnh sửa
+                                    </Link>}
+                                    {canDelete && <Link
+                                        id='button-delete-comment'
+                                        className='btn_Comment '
+                                        variant="primary"
+                                        type='button'
+                                        onClick={() => props.deleteComment(props.cmt.id)}
+                                    >
+                                        Xóa
+                                    </Link>}
+                                    {isReplying && (
+                                        <Form onSubmit={submitReplyComment}>
                                             <>
                                                 <ul className='form-comment'>
                                                     <li>
@@ -143,40 +172,74 @@ const CommentItem = (props) => {
                                                     </li>
                                                 </ul>
                                             </>
-                                        )}
-                                        <>
-                                            {props.listCmtReplies.map(cmtReply => (
-                                                <CommentItem
-                                                    key={cmtReply.id}
-                                                    cmt={cmtReply}
-                                                    listCmtReplies={[]}
-                                                    updateComment={props.updateComment}
-                                                    setListCmt={props.setListCmt}
-                                                    deleteComment={props.deleteComment}
-                                                    listComment={props.listComment}
-                                                    activeComment={props.activeComment}
-                                                    setActiveCmt={props.setActiveCmt}
-                                                    reply={props.reply}
-                                                />
-                                            ))}
-                                        </>
-                                    </div>
-                                </>}
-                            {isEditing && <CommentForm
-                                submitLabel="Cập nhật"
-                                handleCancelButton
-                                initialText={props.cmt.content}
-                                commentId={props.cmt.id}
-                                reply={props.cmt.reply}
-                                handleSubmit={props.updateComment}
-                                // (props.cmt.content,
-                                // props.cmt.id,
-                                // props.cmt.reply)}
-                                handleCancel={() => props.setActiveCmt(null)}
-                            />}
-                        </li>
-                    </ul >
-                </Form >
+                                        </Form >
+                                    )}
+                                    <>
+                                        {props.listCmtReplies.map(cmtReply => (
+                                            <CommentItem
+                                                key={cmtReply.id}
+                                                cmt={cmtReply}
+                                                listCmtReplies={[]}
+                                                updateComment={props.updateComment}
+                                                setListCmt={props.setListCmt}
+                                                deleteComment={props.deleteComment}
+                                                listComment={props.listComment}
+                                                activeComment={props.activeComment}
+                                                setActiveCmt={props.setActiveCmt}
+                                                reply={props.cmt.id}
+                                            />
+                                        ))}
+                                    </>
+                                </div>
+                            </>}
+                        {isEditing &&
+                            // <CommentForm
+                            //     submitLabel="Cập nhật"
+                            //     handleCancelButton
+                            //     initialText={props.cmt.content}
+                            //     commentId={props.cmt.id}
+                            //     // reply={props.cmt.reply}
+                            //     handleSubmit={(content) => props.updateComment(content, props.cmt.id)}
+                            //     handleCancel={() => props.setActiveCmt(null)}
+                            // />
+                            <Form onSubmit={(e) => updateComment(e, props.cmt.id)} >
+                                <ul className='form-comment'>
+                                    <li>
+                                        <Row>
+                                            <Image style={{ width: "100%" }} src={user.avatar} roundedCircle alt='Logo' />
+                                        </Row>
+                                    </li>
+                                    <li>
+                                        <InputGroup>
+                                            <Form.Control
+                                                as="textarea"
+                                                aria-label="With textarea"
+                                                value={contentEdit}
+                                                onChange={e => setContentEdit(e.target.value)}
+                                                placeholder='Nhập bình luận ... ' />
+                                        </InputGroup>
+                                    </li>
+                                    <li>
+                                        <Button
+                                            variant="primary"
+                                            type="submit">
+                                            Cập nhật
+                                        </Button>
+                                        {/* {handleCancelButton && ( */}
+                                        <Button
+                                            variant="primary"
+                                            type='button'
+                                            // className='comment-form-button comment-form-cancel-button'
+                                            onClick={() => props.setActiveCmt(null)} >
+                                            Hủy
+                                        </Button>
+                                        {/* )} */}
+                                    </li>
+                                </ul>
+                            </Form>
+                        }
+                    </li>
+                </ul >
             </Row>
         </>
     );
