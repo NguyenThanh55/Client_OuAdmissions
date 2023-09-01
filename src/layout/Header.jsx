@@ -14,6 +14,15 @@ const Header = () => {
     const [user, dispatch] = useContext(MyUserContext);
     const [kw, setKw] = useState("");
     const nav = useNavigate();
+    let url_chatroom = "/chat";
+    let loading = true;
+    if(user !== null){
+        url_chatroom = `/chat/${user['username']}`;
+        if(user['userRole'] !== "USER") {
+            loading = false;
+        }
+    }
+    
 
     const search = (evt) => {
         evt.preventDefault();
@@ -63,7 +72,9 @@ const Header = () => {
                     </NavDropdown>
                     <Link to="/khoa" className='nav-link'>Thông tin khoa ngành</Link>
                     <Link to="/questionAndAnswer" className='nav-link'>Q&A</Link>
-                    <Link to="/chat" className='nav-link'>Tư vấn trực tiếp</Link>
+                    {loading? <Link to={url_chatroom} className='nav-link'>Tư vấn trực tiếp</Link>
+                    :<Link to="/chat/admin" className='nav-link'>Tư vấn trực tiếp</Link>}
+                    
                 </Nav>
                 {user === null ? <>
                     <Button style={{ margin: "1%" }} variant="outline-info"><Link to="/register" className='text-white'>Đăng ký</Link></Button>{' '}

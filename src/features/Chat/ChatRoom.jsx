@@ -6,9 +6,10 @@ import React, {useEffect, useContext, useState } from 'react';
 import AllChatBox from './AllChatBox'
 import NewChatBox from './NewChatBox'
 import {db} from "../../firebase"
-import { collection, query, where, onSnapshot, orderBy, limit } from "firebase/firestore";
+import {addDoc ,collection, query, where, onSnapshot,serverTimestamp, setDoc, doc  } from "firebase/firestore";
 import { Button } from "react-bootstrap";
 import { MDBBtn } from "mdb-react-ui-kit";
+import { redirect } from "react-router-dom";
 
 const ChatRoom = () => {
 
@@ -16,43 +17,79 @@ const ChatRoom = () => {
 
     const [chatName, setChatName] = useState([]);
     const [exist, setExist] = useState(false);
-
-    useEffect(() => {
-        const q = query(collection(db, "messages"));
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const massages = []; 
-            snapshot.forEach((doc) => {
-                massages.push({...doc.data(), id: doc.id});
-                if(doc.id === user['username']){
-                    setExist(true);
-                }
-            });
-            setChatName(massages);
-        });
-        return () => unsubscribe;
-    }, []);
     
+    useEffect(() => {
+        const loadChatRoom = async () => {
+            if(user !== null){
+                    const q = query(collection(db, "messages"));
+                    const massages = []; 
+                    const unsubscribe = onSnapshot(q, (snapshot) => {
+                        snapshot.forEach((doc) => {
+                            massages.push({...doc.data(), id: doc.id});
+                            if(doc.id === user['username']){
+                                setExist(true);
+                            }
+                    });
+                });
+                setChatName(massages);
+                return () => unsubscribe;
+            }
+        }
+        loadChatRoom();
+    }, []);
 
+    const handleCreateDoc = async () => {
+        try {
+            await setDoc(doc(db, "messages", user['username'] ), {
+                name: user['username']
+              });
+            const newCollectionRef = collection(db, "messages", user['username'], "chat");
+
+            await addDoc(newCollectionRef, {
+                text: "Bạn cần tư vấn gì ạ?",
+                name: "mhoang",
+                avatar: "https://res.cloudinary.com/dohcsyfoi/image/upload/v1692291482/zlgufqz0jcozwnup3bsf.jpg",
+                createdAt: serverTimestamp(),
+                uid : "5"
+            });
+            setExist(true);
+            console.log("Create success");
+        } catch(error) {
+            console.log(error);
+            console.log("Create fail");
+        }
+    }
 
     if(user === null) {
         return <Navigate to="/login" replace={true} />;
     } 
-    if(user['userRole'] === "ADMIN"){
-        return (
-            <div>
-                <AllChatBox />
-            </div>
-        );
-    }
-    return (
-        <div>
-            {exist === true?
-            <NewChatBox />:
-            <div className="mt-3 d-flex align-items-center justify-content-center">
-                <MDBBtn>Tạo đoạn hội thoại mới</MDBBtn>
-            </div>}
-        </div>
-    );
+    else{
+        if(user['userRole'] === "USER"){
+            return (
+                <>
+                    <div>
+                        {exist === true?
+                        <div>
+                            <ChatBox />
+                            <SendMessage />
+                        </div>
+                        :
+                        <div className="mt-3 d-flex align-items-center justify-content-center">
+                            <Button onClick={handleCreateDoc}>Tạo đoạn hội thoại mới</Button>
+                        </div>}
+                    </div>
+                </>
+            );
+        } else {
+            return (                  
+                <div>
+                    <AllChatBox/>
+                </div>     
+                        
+            );
+        }
+        
+    };
 }
 
 export default ChatRoom;

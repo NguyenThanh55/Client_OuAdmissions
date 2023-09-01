@@ -1,4 +1,4 @@
-import { Container, Alert, Button } from "react-bootstrap";
+import { Container, Alert } from "react-bootstrap";
 import Message from "./Message"
 import { collection, query, where, onSnapshot, orderBy, limit } from "firebase/firestore";
 import { useEffect, useState } from "react";

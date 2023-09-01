@@ -3,12 +3,15 @@ import React, { useContext, useState } from 'react';
 import { MyUserContext } from '../../App';
 import {addDoc, collection, serverTimestamp } from "firebase/firestore";
 import {db} from "../../firebase"
+import { Navigate, useParams  } from "react-router-dom";
 
 
 const SendMessage = () => {
     const [message, setMessage] = useState("");
     const [user, dispatch] = useContext(MyUserContext);
-    const url_collection = "messages/" + user['username'] + "/chat"
+    const {username} = useParams();
+    var url_collection = "messages/" + username + "/chat"
+    
     
     const handleSendMessage = async (e) => {
         e.preventDefault();

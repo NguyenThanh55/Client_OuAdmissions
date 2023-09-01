@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axiosClient, { endpoints } from '../../api/axiosClient';
-import Card from 'react-bootstrap/Card';
+import {Card, Alert} from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 
 const PostByType = (typeId) => {
-    const [posts, setPostState] = useState();
+    const [posts, setPostState] = useState([]);
     const { id } = useParams();
 
     useEffect(() => {
@@ -16,6 +16,7 @@ const PostByType = (typeId) => {
                 console.error('Error fetching post:', error);
             });
     }, [typeId]);
+
 
     return (
         <>
