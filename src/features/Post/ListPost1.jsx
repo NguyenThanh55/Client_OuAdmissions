@@ -7,11 +7,12 @@ import { Link } from 'react-router-dom';
 const ListPost1 = () => {
     const [ListPost, setPostState1] = useState([])
     // const history = useHistory();
-
+    const typeOfPost = 1;
     useEffect(() => {
         const getPost = async () => {
             try {
                 const res = await axiosClient.get(endpoints['post1']);
+                // const resListPost = await axiosClient.get(endpoints['postByType'] + typeOfPost);
                 setPostState1(res.data)
             } catch (error) {
                 console.log(error.message)
@@ -26,7 +27,7 @@ const ListPost1 = () => {
 
     return (
         <>
-            <ul className='ListPostTS'>
+            <ul className='ListPostTS' >
                 {ListPost.map(post => (
                     <li key={post.id}>
                         <Card className='card_post'>
@@ -41,7 +42,7 @@ const ListPost1 = () => {
                 <li>
                     <Card className='card_post'>
                         <Card.Body>
-                            <Card.Title><Link className='deco_post' to={`/post_by_Type/1`}>Xem thêm</Link></Card.Title>
+                            <Card.Title><Link className='deco_post' to={`/post_by_Type/${typeOfPost}`}>Xem thêm</Link></Card.Title>
                         </Card.Body>
                     </Card>
                 </li>

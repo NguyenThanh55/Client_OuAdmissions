@@ -51,14 +51,14 @@ const Header = () => {
                     >
                         <Form onSubmit={search} inline className="d-flex">
                             <Form.Control
-                            style={{ height: "80%", margin: "1%" }}
+                                style={{ height: "80%", margin: "1%" }}
                                 className=" mr-sm-2"
                                 type="text"
                                 value={kw}
                                 onChange={e => setKw(e.target.value)}
                                 placeholder="Nhập từ khóa..."
                             />
-                            <Button style={{ margin: "1%", height:"80%" }} variant="info" type='submit'> Tìm </Button>{' '}
+                            <Button style={{ margin: "1%", height: "80%" }} variant="info" type='submit'> Tìm </Button>{' '}
                         </Form>
                     </ul>
                 </Container>
@@ -90,7 +90,6 @@ const Header = () => {
                 </>}
                 </Container>
             </Navbar >
-
 
         </>
     );

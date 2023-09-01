@@ -18,12 +18,11 @@ const Home = () => {
   const [user, dispatch] = useContext(MyUserContext);
   const [posts, setPosts] = useState(null);
   const [q] = useSearchParams();
-  // console.log(user['avatar']);
+  console.log(user['avatar']);
   useEffect(() => {
     let loadPosts = async () => {
       try {
         let e = endpoints['post'];
-
         let typeId = q.get("typeId");
         if (typeId !== null)
           e = `${e}?typeId=${typeId}`;
@@ -41,8 +40,7 @@ const Home = () => {
 
   return (
     <>
-      
-      <h1 class="text-center text-info mt-1">THÔNG TIN TUYỂN SINH</h1>
+      <h1 className="text-center text-info mt-1">THÔNG TIN TUYỂN SINH</h1>
       <h2 className="title" id="1" >Hệ chính quy</h2>
       <ListPost1 />
       <h2 className="title" id="2" >Hệ liên thông</h2>
