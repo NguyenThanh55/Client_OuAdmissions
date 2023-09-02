@@ -2,7 +2,7 @@ import axios from "axios";
 import cookie from "react-cookies";
 
 const SERVER_CONTEXT = "/OUAdmissions";
-const SERVER = "http://localhost:8088";
+const SERVER = "http://localhost:8080";
 
 export const endpoints = {
   type: `${SERVER_CONTEXT}/api/type`,

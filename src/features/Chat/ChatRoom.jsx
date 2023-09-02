@@ -41,7 +41,10 @@ const ChatRoom = () => {
     const handleCreateDoc = async () => {
         try {
             await setDoc(doc(db, "messages", user['username'] ), {
-                name: user['username']
+                name: user['username'],
+                avatar: user['avatar'],
+                createdAt: serverTimestamp(),
+                lastMessage: "Bạn cần tư vấn gì ạ?"
               });
             const newCollectionRef = collection(db, "messages", user['username'], "chat");
 

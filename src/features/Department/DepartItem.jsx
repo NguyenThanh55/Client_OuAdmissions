@@ -25,10 +25,11 @@ const DepartItem = ({ departId }) => {
         <>
             <h2 className="depart">{depart.name}</h2>
             <p>{depart.description}</p>
-            <p>{depart.educationProgram}</p>
-            <p>{depart.website}</p>
+            <h3>Chương trình đào tạo:</h3>
+            <p3 className="mb-3">{depart.educationProgram}</p3>
+            <h2>Website khoa:{depart.website}</h2>
             <p>{depart.introduceVideo}</p>
-            <p>{depart.averageScore}</p>
+            <h2>Điểm trung bình trúng tuyển: {depart.averageScore}</h2>
         </>
     );
 }

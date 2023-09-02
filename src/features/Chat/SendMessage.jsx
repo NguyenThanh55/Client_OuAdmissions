@@ -1,7 +1,7 @@
 import { Container, Form } from "react-bootstrap";
 import React, { useContext, useState } from 'react';
 import { MyUserContext } from '../../App';
-import {addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {addDoc, collection, serverTimestamp, updateDoc, doc, where } from "firebase/firestore";
 import {db} from "../../firebase"
 import { Navigate, useParams  } from "react-router-dom";
 
@@ -23,6 +23,14 @@ const SendMessage = () => {
 
         try {
             const uid = user['id']
+            //Update Document
+            const docRef = doc(db, "messages", username);
+            await updateDoc(docRef, {
+                createdAt: serverTimestamp(),
+                lastMessage: message
+              });
+            
+            //Add message
             await addDoc(collection(db, url_collection), {
                 text: message,
                 name: user['username'],

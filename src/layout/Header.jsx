@@ -70,7 +70,7 @@ const Header = () => {
                     <NavDropdown title="Thông tin tuyển sinh" id="basic-nav-dropdown">
                         <TypeFeature />
                     </NavDropdown>
-                    <Link to="/khoa" className='nav-link'>Thông tin khoa ngành</Link>
+                    <Link to="/department" className='nav-link'>Thông tin khoa ngành</Link>
                     <Link to="/questionAndAnswer" className='nav-link'>Q&A</Link>
                     {loading? <Link to={url_chatroom} className='nav-link'>Tư vấn trực tiếp</Link>
                     :<Link to="/chat/admin" className='nav-link'>Tư vấn trực tiếp</Link>}

@@ -16,79 +16,39 @@ const AllChatBox = () => {
 
     const [user, dispatch] = useContext(MyUserContext);
     const [chatboxs, setChatboxs] = useState([]);
+    const [chatItem, setChatItem] = useState([]);
 
     useEffect(() => {
         const loadAllChatBox = () => {
             const q = query(collection(db, "messages")); // get All document in collection messages
-            const unsubscribe = onSnapshot(q, (snapshot) => {
-                    let messages = [];
-                    snapshot.forEach( async (doc1) => { // Loop all document in q 
-                        const url_collection = "messages/" + doc1.id + "/chat"; // Get doc.id each document ==> generate url to path chatbox 
-
-                        //Get num document in collection messages on firebase
-                        let expenCol = collection(db, "messages");
-                        let snapshotCount = await getCountFromServer(expenCol);
-                        let i = snapshotCount.data().count;
-                        //Query a lastest message each document
-                        const queryChatBox = query(collection(db, url_collection), orderBy("createdAt", "desc"), limit(1));//6 9
-                        
-                        //Get doc in query
-                        const querySnapshot = onSnapshot(queryChatBox, (snapshot) => {
-                            let count = 0 
-                            snapshot.forEach((doc) => {
-                                if(messages.length < i) {
-                                    // Push if not exist
-                                    messages.push({...doc.data(), id: doc1.id});
-                                    console.log(messages);
-                                    console.log(doc.data().uid);
-                                } 
-                                else {
-                                    //Check if exist 
-                                    messages.map(c => {
-                                        if(c.uid === doc.data().uid) {
-                                            //Delete if exist
-                                            delete messages[count]
-                                            const results = messages.filter(element => {
-                                                if (Object.keys(element).length !== 0) {
-                                                  return true;
-                                                }
-                                                return false;
-                                            });
-                                            messages = results;
-                                        }
-                                    count++;
-                                })
-                                // Push if not exist
-                                messages.push({...doc.data(), id: doc1.id});
-                                console.log(messages);
-                                console.log(doc.data().uid);
-                                }
-                                
-                                
-                            });
-                            //Check if message length === document on firebase
-                            if(messages.length === i){
+            const unsubscribe = onSnapshot(q, async (snapshot) => {
+                    let chatItems = [];
+                    let expenCol = collection(db, "messages");
+                    let snapshotCount = await getCountFromServer(expenCol);
+                    let i = snapshotCount.data().count;
+                    snapshot.forEach((doc) => { // Loop all document in q 
+                        chatItems.push(doc.data());
+                        console.log(chatItems)
+                    }); 
+                    if(chatItems.length === i){
                                 //Sort object by createdAt
-                                messages.sort((a, b) => {
+                                chatItems.sort((a, b) => {
                                     return a.createdAt - b.createdAt;
                                   });
-                                messages.reverse();
+                                chatItems.reverse();
                                 //Update state
-                                setChatboxs(messages);
-                            } 
-                        });
-                        return () => querySnapshot;  
-                    }); 
+                                setChatItem(chatItems);
+                    }
                 })
             return () => unsubscribe;
         }
         loadAllChatBox();
-    }, [setChatboxs]);
+    }, []);
     
     if(user === null) {
         return <Navigate to="/login" replace={true} />;
     }
-    if (chatboxs === null || chatboxs.length === 0){
+    if (chatItem === null || chatItem.length === 0){
         return <MySpinner /> ;
     }
     
@@ -96,7 +56,7 @@ const AllChatBox = () => {
         <>
         <Container>
             <div className="mt-4">
-            {chatboxs.map(c => {
+            {chatItem.map(c => {
                 let url = `/chat/admin/${c.name}`
                 
                 return <MDBCol className="mb-4 mb-md-0">
@@ -114,7 +74,10 @@ const AllChatBox = () => {
                                         </div>
                                         <div className="pt-1 pl-3">
                                             <p className="text-monospace ">
-                                            {c.text}
+                                            {c.name}
+                                            </p>
+                                            <p className="text-monospace ">
+                                            {c.lastMessage}
                                             </p>
                                         </div>
                                     </div>
