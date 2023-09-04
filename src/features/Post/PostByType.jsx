@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axiosClient, { endpoints } from '../../api/axiosClient';
-import Card from 'react-bootstrap/Card';
+import { Card, Alert } from 'react-bootstrap';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import './post.scss';
 import { Button } from 'react-bootstrap';
@@ -9,7 +9,9 @@ import Stack from '@mui/material/Stack';
 const PAGE_SIZE = 10;
 
 const PostByType = (typeId) => {
+
     const [posts, setPostState] = useState(null);
+
     const { id } = useParams();
     const [q] = useSearchParams();
     const nav = useNavigate();
@@ -37,12 +39,6 @@ const PostByType = (typeId) => {
         return <div>Không có dữ liệu</div>;
     }
 
-    const handlePageChange = (event, value) => {
-        if (value !== null)
-            setPage(value);
-        nav(`/post_by_Type/${id}?page=${value}`);
-    };
-    // console.log(pages);
     return (
         <>
             <div className='ChangePage'>

@@ -19,7 +19,6 @@ const Home = () => {
   const [user, dispatch] = useContext(MyUserContext);
   const [posts, setPosts] = useState(null);
   const [q] = useSearchParams();
-  // console.log(user['avatar']);
   useEffect(() => {
     let loadPosts = async () => {
       try {

@@ -14,6 +14,8 @@ import cookie from "react-cookies";
 import MyUserReducer from "./features/Register_Login/reducers/MyUserReducer";
 import Search from "./features/Search/Search";
 import ChatRoom from "./features/Chat/ChatRoom.jsx";
+import AllChatBox from "./features/Chat/AllChatBox.jsx"
+import NewChatBox from "./features/Chat/NewChatBox.jsx";
 import PostByType from "./features/Post/PostByType";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -54,6 +56,9 @@ const App = () => {
                 <Route path="/search" element={<Search />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/chat/admin" element={<AllChatBox />} />
+                <Route path="/chat/admin/:username" element={<NewChatBox />} />
+                <Route path="/chat/:username" element={<ChatRoom />} />
                 <Route path="/chat" element={<ChatRoom />} />
                 <Route path="/changePassword" element={<ChangePassword />} />
               </Routes>

@@ -45,6 +45,7 @@ function PostItem({ postId }) {
                 <div dangerouslySetInnerHTML={{ __html: post.content }} />
             </div>
 
+
             {user !== null ?
                 <Comment post_id={post.id} />
                 : <>
@@ -56,7 +57,7 @@ function PostItem({ postId }) {
                 </>
             }
 
-            <FacebookProvider appId="6836544049690538" width="100%">
+            <FacebookProvider appId={appId} width="100%">
                 <Comments href="https://hoangvbm2808.github.io/webschool/" width="100%" />
             </FacebookProvider>
 

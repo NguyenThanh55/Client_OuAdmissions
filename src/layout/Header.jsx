@@ -16,8 +16,17 @@ const Header = () => {
     const [user, dispatch] = useContext(MyUserContext);
     const [kw, setKw] = useState("");
     const nav = useNavigate();
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+    let url_chatroom = "/chat";
+    let loading = true;
+    if (user !== null) {
+        url_chatroom = `/chat/${user['username']}`;
+        if (user['userRole'] !== "USER") {
+            loading = false;
+        }
+    }
 
     const search = (evt) => {
         evt.preventDefault();
@@ -62,7 +71,41 @@ const Header = () => {
                     </ul>
                 </Container>
             </Navbar>
-            <Navbar className="headcolor" variant="dark" style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 0, paddingBottom: 5 }}>
+            {/* <Navbar className="headcolor" variant="dark" style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 0, paddingBottom: 5 }}>
+         <Container style={{ width: "80%" }}>
+             <Nav className="mr-auto">
+                 <Link to="/" className='nav-link'>Trang chủ</Link>
+                 <NavDropdown title="Thông tin tuyển sinh" id="basic-nav-dropdown">
+                     <TypeFeature />
+                 </NavDropdown>
+                 <Link to="/department" className='nav-link'>Thông tin khoa ngành</Link>
+                 <Link to="/questionAndAnswer" className='nav-link'>Q&A</Link>
+                 <Link to="/chat" className='nav-link'>Tư vấn trực tiếp</Link>
+                 <Link to="/contact" className='nav-link'>Liên hệ</Link> */}
+
+            {/* </Nav> */}
+            {/* {user === null ? <>
+                 <Link to="/register" className='loginbt'>Đăng ký</Link> {' '}
+                 <Button style={{ margin: "1%" }} variant="outline-info"><Link to="/login" className='text-white'>Đăng nhập</Link></Button>{' '}
+             </> : <>
+                 <Row >
+                     <Col>
+                         <Image src={user.avatar} */}
+            {/* roundedCircle
+                             onClick={toggleDropdown}
+                             style={{ width: 50, height: 50, borderRadius: 50 / 2, margin: 10 }} />
+                     </Col> */}
+            {/* </Row> */}
+            {/* <DropdownButton id="dropdown-basic-button" title="Dropdown button">
+    //                         <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+    //                         <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+    //                         <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+    //                     </DropdownButton> */}
+            {/* //             <Link to="/" className='text-white'>{user.username}</Link>
+    //             <Button variant="outline-info" style={{ margin: "1%" }} onClick={logout}>Đăng xuất</Button>{' '}
+    //         </>} */}
+
+            <Navbar className='headcolor' variant="dark" style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 0, paddingBottom: 5 }}>
                 <Container style={{ width: "80%" }}>
                     <Nav className="mr-auto">
                         <Link to="/" className='nav-link'>Trang chủ</Link>
@@ -71,14 +114,20 @@ const Header = () => {
                         </NavDropdown>
                         <Link to="/department" className='nav-link'>Thông tin khoa ngành</Link>
                         <Link to="/questionAndAnswer" className='nav-link'>Q&A</Link>
-                        <Link to="/chat" className='nav-link'>Tư vấn trực tiếp</Link>
-                        <Link to="/contact" className='nav-link'>Liên hệ</Link>
+                        {loading ? <Link to={url_chatroom} className='nav-link'>Tư vấn trực tiếp</Link>
+                            : <Link to="/chat/admin" className='nav-link'>Tư vấn trực tiếp</Link>}
                         <Link to="/changePassword" className='nav-link'>Đổi mật khẩu</Link>
+
                     </Nav>
                     {user === null ? <>
                         <Link to="/register" className='loginbt'>Đăng ký</Link> {' '}
                         <Button style={{ margin: "1%" }} variant="outline-info"><Link to="/login" className='text-white'>Đăng nhập</Link></Button>{' '}
                     </> : <>
+                        {/* <Row >
+                            <Col>
+                                <Image src={user.avatar} roundedCircle style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />
+                            </Col>
+                        </Row> */}
                         <Row >
                             <Col>
                                 <Image src={user.avatar}
@@ -95,7 +144,6 @@ const Header = () => {
                         <Link to="/" className='text-white'>{user.username}</Link>
                         <Button variant="outline-info" style={{ margin: "1%" }} onClick={logout}>Đăng xuất</Button>{' '}
                     </>}
-
                 </Container>
             </Navbar >
 
