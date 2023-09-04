@@ -20,9 +20,19 @@ export const endpoints = {
   "current-user": `${SERVER_CONTEXT}/api/current-user/`,
   "register-user": `${SERVER_CONTEXT}/api/register-user/`,
   commentByPost: `${SERVER_CONTEXT}/api/listCommentByPost/`,
-  addComment: `${SERVER_CONTEXT}/api/addComment`,
-  updateComment: `${SERVER_CONTEXT}/api/updateComment/`,
-  deleteComment: `${SERVER_CONTEXT}/api/deleteComment/`,
+  addComment: `${SERVER_CONTEXT}/api/comments/`,
+  updateComment: (questionId) => `${SERVER_CONTEXT}/api/comments/${questionId}`,
+  deleteComment: (questionId) => `${SERVER_CONTEXT}/api/comments/${questionId}`,
+  liveStreams: `${SERVER_CONTEXT}/api/livestreams/`,
+  liveInfo: `${SERVER_CONTEXT}/api/live_info/`,
+  listQuestions: `${SERVER_CONTEXT}/api/questions/`,
+  addQuestion: `${SERVER_CONTEXT}/api/questions/`,
+  deleteQuestion: (questionId) =>
+    `${SERVER_CONTEXT}/api/questions/${questionId}`,
+  updateQuestion: (questionId) =>
+    `${SERVER_CONTEXT}/api/questions/${questionId}`,
+  questions: (liveId) => `${SERVER_CONTEXT}/api/live_info/${liveId}/questions`,
+  "change-password": `${SERVER_CONTEXT}/api/change-password/`,
 };
 export const authApi = () => {
   return axios.create({

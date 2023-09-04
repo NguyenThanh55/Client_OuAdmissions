@@ -5,7 +5,7 @@ import './Comment.scss';
 import axiosClient, { authApi, endpoints } from '../../api/axiosClient';
 import { Link } from 'react-router-dom';
 import CommentItem from './CommentItem';
-import CommentForm from './CommentForm';
+import CommentForm from '../LiveStream/QuestionForm';
 
 const Comment = (props) => {
     const [user] = useContext(MyUserContext);
@@ -34,6 +34,7 @@ const Comment = (props) => {
 
     const addComment = (e) => {
         e.preventDefault();
+        console.log("data");
         const process = async () => {
             let { data } = await axiosClient.post(endpoints['addComment'], {
                 "content": content,
@@ -41,7 +42,7 @@ const Comment = (props) => {
                 "userId": user,
                 "reply": reply
             })
-            // console.log(data);
+            console.log(data);
             setListCmt([data, ...listComment]);
             setContentState("");
         };
@@ -50,7 +51,7 @@ const Comment = (props) => {
 
     const deleteComment = (cmtId) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa bình luận này?")) {
-            axiosClient.delete(`${endpoints['deleteComment']} + ${cmtId}`)
+            axiosClient.delete(endpoints['deleteComment'](cmtId))
                 .then(() => {
                     setListCmt(listComment.filter((comment) => comment.id !== cmtId));
                 });
@@ -69,7 +70,9 @@ const Comment = (props) => {
                     <ul className='form-comment'>
                         <li>
                             <Row>
-                                <Image src={user.avatar} roundedCircle style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />
+                                <Col>
+                                    <Image src={user.avatar} roundedCircle style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />
+                                </Col>
                             </Row>
                         </li>
                         <li>
@@ -105,6 +108,8 @@ const Comment = (props) => {
                         setActiveCmt={setActiveCmt}
                     />
                 ))}
+
+
             </Row >
         </>
     );

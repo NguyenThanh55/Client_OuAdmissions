@@ -1,32 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import axiosClient, { endpoints } from '../../api/axiosClient';
 import Card from 'react-bootstrap/Card';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import './post.scss';
+import { Button } from 'react-bootstrap';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+const PAGE_SIZE = 10;
 
 const PostByType = (typeId) => {
     const [posts, setPostState] = useState(null);
     const { id } = useParams();
+    const [q] = useSearchParams();
+    const nav = useNavigate();
+    const [page, setPage] = useState(1);
+    const [start, setStart] = useState('');
 
     useEffect(() => {
-        axiosClient.get(`${endpoints['postByType']} + ${id}`)
-            .then(response => {
-                setPostState(response.data);
-            })
-            .catch(error => {
-                console.log('Error fetching post:', error);
-            });
-    }, [typeId]);
+        let loadPosts = async () => {
+            let e = `${endpoints['postByType']}${id}`;
+            // let page = q.get('page');
+            // if (page !== null)
+            //     e = `${e}?page=${page}`;
+            let response = await axiosClient.get(e);
+            setPostState(response.data);
+            // setPages(response.data.pages);
+        }
+        loadPosts();
+    }, [q]);
+
+    useEffect(() => {
+        setStart((page - 1) * PAGE_SIZE)
+    }, [page]);
 
     if (posts === null) {
         return <div>Không có dữ liệu</div>;
-
     }
 
+    const handlePageChange = (event, value) => {
+        if (value !== null)
+            setPage(value);
+        nav(`/post_by_Type/${id}?page=${value}`);
+    };
+    // console.log(pages);
     return (
         <>
+            <div className='ChangePage'>
+                <Pagination
+                    count={Math.ceil(posts.length / PAGE_SIZE)}
+                    showFirstButton
+                    showLastButton
+                    onChange={(e, p) => setPage(p)} />
+            </div>
             <ul className='ListPostTS'>
-                {posts.map(post => (
+                {posts.slice(start, start + PAGE_SIZE).map(post => (
                     <li key={post.id}>
                         <Card className='card_post'>
                             <Card.Img variant="top" src="https://tuyensinh.ou.edu.vn/tmp/rscache/1110x475-21072023-01.png" />
@@ -38,6 +65,7 @@ const PostByType = (typeId) => {
                     </li>
                 ))}
             </ul>
+
         </>
     );
 };

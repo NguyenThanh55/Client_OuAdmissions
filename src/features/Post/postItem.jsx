@@ -15,7 +15,6 @@ function PostItem({ postId }) {
     const { id } = useParams();
 
     useEffect(() => {
-
         axiosClient.get(`${endpoints['postInfo']} + ${id}`)
             .then(response => {
                 setPost(response.data);
@@ -29,9 +28,6 @@ function PostItem({ postId }) {
 
     if (!post) {
         return <div>Loading...{postId}</div>;
-    }
-    else {
-
     }
 
     let url = "http://192.168.1.4:3000/post_info/" + id;
@@ -55,7 +51,7 @@ function PostItem({ postId }) {
                     <div style={{ fontSize: 50 }}>
                         Bình luận
                     </div>
-                    <div>Để bình luận, bạn cần phải <Link to="/login">Đăng nhập</Link>
+                    <div>Vui lòng <Link to={`/login?next=/post_info/${id}`}>Đăng nhập</Link> để bình luận
                     </div>
                 </>
             }

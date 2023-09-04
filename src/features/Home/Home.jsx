@@ -10,6 +10,7 @@ import { useSearchParams } from "react-router-dom";
 import axiosClient, { endpoints } from "../../api/axiosClient";
 import Banner from "../Banner/Banner";
 import { MyUserContext } from '../../App';
+import NotificationLive from "../LiveStream/NotificationLive";
 
 
 
@@ -18,7 +19,7 @@ const Home = () => {
   const [user, dispatch] = useContext(MyUserContext);
   const [posts, setPosts] = useState(null);
   const [q] = useSearchParams();
-  console.log(user['avatar']);
+  // console.log(user['avatar']);
   useEffect(() => {
     let loadPosts = async () => {
       try {
@@ -40,17 +41,29 @@ const Home = () => {
 
   return (
     <>
-      <h1 className="text-center text-info mt-1">THÔNG TIN TUYỂN SINH</h1>
-      <h2 className="title" id="1" >Hệ chính quy</h2>
-      <ListPost1 />
-      <h2 className="title" id="2" >Hệ liên thông</h2>
-      <ListPost2 />
-      <h2 className="title" id="3" >Cao học </h2>
-      <ListPost3 />
-      <h2 className="title" id="4" >Thạc sĩ </h2>
-      <ListPost4 />
-      <h2 className="title" id="5" >Đào tạo từ xa </h2>
-      <ListPost5 />
+      <div>
+        <h1 className="text-center text-sky-500 mt-7 info">THÔNG TIN TUYỂN SINH</h1>
+        <div className="home">
+          <div style={{ width: "70%" }}>
+            <h2 className="title" id="1" >Hệ chính quy</h2>
+            <ListPost1 />
+            <h2 className="title" id="2" >Hệ liên thông</h2>
+            <ListPost2 />
+            <h2 className="title" id="3" >Cao học </h2>
+            <ListPost3 />
+            <h2 className="title" id="4" >Thạc sĩ </h2>
+            <ListPost4 />
+            <h2 className="title" id="5" >Đào tạo từ xa </h2>
+            <ListPost5 />
+          </div>
+
+          <div className="livestream" >
+            <h2 className="title">Tin tức livestream</h2>
+            <NotificationLive />
+          </div>
+
+        </div>
+      </div>
     </>
   );
 };

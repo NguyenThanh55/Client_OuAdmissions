@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import axiosClient, { authApi, endpoints } from '../../api/axiosClient';
 import cookie from "react-cookies";
 import { MyUserContext } from '../../App';
@@ -11,6 +11,7 @@ const Login = () => {
     const [validated, setValidated] = useState(false);
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+    const [q] = useSearchParams();
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
@@ -25,7 +26,7 @@ const Login = () => {
                 let res = await axiosClient.post(endpoints['login'], {
                     "username": username,
                     "password": password
-                })
+                });
                 cookie.save("token", res.data);
                 console.log(res.data);
                 let { data } = await authApi().get(endpoints['current-user']);
@@ -42,8 +43,10 @@ const Login = () => {
         process();
     };
 
-    if (user !== null)
-        return <Navigate to="/" />
+    if (user !== null) {
+        let next = q.get("next") || "/";
+        return <Navigate to={next} />
+    }
 
     return (
         <div>
@@ -93,9 +96,9 @@ const Login = () => {
                                                 controlId="formBasicCheckbox"
                                             >
                                                 <p className="small">
-                                                    <a className="text-primary" href="#!">
+                                                    <Link className="text-primary" to="/changePassword">
                                                         Quên mật khẩu?
-                                                    </a>
+                                                    </Link>
                                                 </p>
                                             </Form.Group>
                                             <div className="d-grid">

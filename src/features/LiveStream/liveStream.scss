@@ -1,0 +1,46 @@
+.listLiveStreams {
+  margin: 0px 10px 0 10px;
+  padding-top: 10px;
+}
+
+.form-question {
+  list-style: none;
+}
+.form-question-btn {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu nền với độ mờ */
+  z-index: 9999; /* Đảm bảo lớp overlay nằm trên các phần tử khác */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  width: 800px;
+  margin-top: 20%;
+}
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px;
+  border: none;
+  background-color: transparent;
+  color: black;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.question-item {
+  padding: 15px;
+  margin-bottom: 10px;
+}

@@ -7,52 +7,6 @@ import './style.scss';
 const Register = () => {
     const [validated, setValidated] = useState(false);
 
-    // const [firstName, setfirstName] = useState();
-    // const [lastName, setlastName] = useState();
-    // const [phone, setphone] = useState();
-    // const [email, setemail] = useState();
-    // const [username, setUsername] = useState();
-    // const [password, setPassword] = useState();
-    // const [confimPassword, setConfimPassword] = useState();
-
-    // const handleSubmit = (event) => {
-    //     const form = event.currentTarget;
-    //     event.preventDefault();
-
-    //     if (form.checkValidity() === false) {
-    //         event.stopPropagation();
-    //     }
-
-    //     setValidated(true);
-    // let regobj = {
-    //     firstName, lastName, phone,
-    //     email, username, password
-    // };
-    //     const process = async () => {
-    //         console.log(firstName, lastName, username, password, email, phone)
-    //         try {
-    //             let res = await axiosClient.post(endpoints['register-user'], {
-    //                 "firstName": firstName,
-    //                 "lastName": lastName,
-    //                 "username": username,
-    //                 "password": password,
-    //                 "phone": phone,
-    //                 "email": email
-    //                 // method: 'POST',
-    //                 // headers: {
-    //                 //     'Accept': 'application/json',
-    //                 //     'Content-Type': 'application/json'
-    //                 // },
-    //                 // mode: 'no-cors',
-    //                 // body: JSON.stringify(regobj)
-    //             })
-    //             console.log(res);
-    //         } catch (ex) {
-    //             console.error(ex);
-    //         }
-    //     }
-    //     process();
-
     const [user, setUser] = useState({
         username: "",
         password: "",
@@ -88,6 +42,7 @@ const Register = () => {
             setLoading(true);
             let res = await axiosClient.post(endpoints["register-user"], form);
             if (res.status === 200) {
+
                 nav("/login");
             } else setErr("Hệ thống bị lỗi!");
         };

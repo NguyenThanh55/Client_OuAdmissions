@@ -78,6 +78,24 @@ ul.menu li {
   margin-right: 1.6rem;
   font-size: 1.4rem;
 }
+.buttonTim {
+  margin: 1%;
+  height: 80%;
+  background-color: #0f5cbd !important;
+  color: white !important;
+  border-color: none !important;
+  border: none !important;
+}
+.loginbt {
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+}
+
+.loginbt:hover {
+  color: rgb(29, 6, 114);
+  text-decoration: underline;
+}
 
 /* TEST OPEN NAV */
 .open-nav {
@@ -342,8 +360,8 @@ input[type="email"]:valid + label {
 
 .section-ques .ques-item .ans {
   /* display: none; */
-  max-height: 0;
-  opacity: 0;
+  // max-height: 0;
+  // opacity: 0;
   font-style: italic;
   font-size: 0.9rem;
   margin-top: 5px;
@@ -515,4 +533,52 @@ footer {
 .bottom-footer p {
   color: #fff;
   font-weight: normal;
+}
+
+/*----------------------------------------*/
+.question-and-answer {
+  // width: 100%;
+  // margin: 30px;
+  // margin-left: 20%;
+  display: flex;
+  justify-content: center;
+  // align-items: center;
+  margin-top: 20px;
+}
+.ques-item {
+  position: relative;
+}
+
+// .ques-item .ans {
+//   display: none;
+//   transition: max-height 0.3s ease-in-out;
+//   overflow: hidden;
+// }
+
+// .ques-item .ans {
+//   display: block;
+//   max-height: 100px; /* Điều chỉnh độ cao tối đa của .ans trong trạng thái hover */
+// }
+
+// .ques-item:click .ans {
+//   display: block;
+//   max-height: 100px;
+// }
+
+.ques-item .ans {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.ques-item .ques.expanded + .ans.expanded {
+  max-height: 100px; /* Điều chỉnh độ cao tối đa của .ans trong trạng thái mở rộng */
+}
+
+// .ans.expanded {
+//   display: block;
+//   max-height: 100px; /* Điều chỉnh độ cao tối đa của .ans trong trạng thái mở rộng */
+// }
+.ChangePage {
+  margin-left: 35%;
 }

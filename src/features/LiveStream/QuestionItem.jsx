@@ -1,102 +1,106 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Button, Col, Container, Form, Image, InputGroup, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Image, InputGroup, ListGroup, Row } from 'react-bootstrap';
 import { MyUserContext } from '../../App';
-import './Comment.scss';
 import axiosClient, { endpoints } from '../../api/axiosClient';
 import { Link } from 'react-router-dom';
-import CommentForm from '../LiveStream/QuestionForm';
 
-const CommentItem = (props, { replyId = 0 }) => {
+const QuestionItem = (props, { replyId = 0 }) => {
     const [user] = useContext(MyUserContext);
     const canReply = Boolean(user)
-    const canEdit = user.id === props.cmt.userId.id;
-    const canDelete = user.id === props.cmt.userId.id;
-    const isReplying = props.activeComment
-        && props.activeComment.type === 'replying'
-        && props.activeComment.id === props.cmt.id;
-    const isEditing = props.activeComment
-        && props.activeComment.type === 'editing'
-        && props.activeComment.id === props.cmt.id;
-    const reply = replyId ? replyId : props.cmt.id;
+    const canEdit = user.id === props.question.userId.id;
+    const canDelete = user.id === props.question.userId.id;
+    const isReplying = props.activeQuestion
+        && props.activeQuestion.type === 'replying'
+        && props.activeQuestion.id === props.question.id;
+    const isEditing = props.activeQuestion
+        && props.activeQuestion.type === 'editing'
+        && props.activeQuestion.id === props.question.id;
+    const reply = replyId ? replyId : props.question.id;
     let [contentReply, setContentReplyState] = useState('');
-    const [contentEdit, setContentEdit] = useState(props.cmt.content);
-    const commentsRef = useRef([]);
+    const [contentEdit, setContentEdit] = useState(props.question.content);
 
-    const submitReplyComment = async (event) => {
+    const submitReplyQuestion = async (event) => {
         event.preventDefault();
-        // console.log(props.cmt.userId.username);
+        // console.log(props.question.userId.username);
         try {
-            let res = await axiosClient.post(endpoints['addComment'], {
+            let { data } = await axiosClient.post(endpoints['addQuestion'], {
                 "content": contentReply,
+                "livestreamId": props.question.livestreamId,
                 "userId": user,
-                "postId": props.cmt.postId,
-                "reply": reply
+                "answer": reply
             })
-            // console.log(res);
-            props.setListCmt([...props.listComment, res.data]);
-            props.setActiveCmt(null);
-            commentsRef.current = props.listComment;
+            // console.log(data);
+            props.setListQuestion([...props.listQuestion, data]);
+            props.setActiveQuestion(null);
+            // commentsRef.current = props.listComment;
         } catch (ex) {
             console.error(ex);
         }
-        // setListCmt([...listComment, cmt])
+        // setListQuestion([...props.listQuestion, question])
         setContentReplyState("");
 
     };
 
-    const updateComment = (e, commentId) => {
+    const updateQuestion = (e, questionId) => {
         e.preventDefault();
         const process = async () => {
-            // console.log(">>>>>>>> bắt đầu");
-            const data = await axiosClient.post(endpoints['updateComment'](commentId), {
-                "id": commentId,
+            console.log(">>>>>>>> bắt đầu");
+            const data = await axiosClient.post(endpoints['updateQuestion'](questionId), {
+                "id": questionId,
                 "content": contentEdit,
             });
             console.log(data);
-            props.setListCmt(listComment => {
-                const updatedListComment = listComment.map(cmt => {
-                    if (cmt.id === commentId) {
-                        return { ...cmt, content: contentEdit };
+            props.setListQuestion(listQuestion => {
+                const updatedListQuestion = props.listQuestion.map(question => {
+                    if (question.id === questionId) {
+                        return { ...question, content: contentEdit };
                     }
-                    return cmt;
+                    return question;
                 });
-                return updatedListComment;
+                return updatedListQuestion;
             });
-            console.log(props.listComment);
+            console.log(props.listQuestion);
         };
         process();
-        props.setActiveCmt(null);
+        props.setActiveQuestion(null);
     }
-
-    if (props.listCmtReplies === null)
-        return (<div>Chua co binh luan nao</div>)
-
-    // console.log(props.cmt.id);
 
     return (
         <>
-            <Row className="vh-500 d-flex justify-content-center align-items-center">
+            {user !== null ? <>
+                {/* {c.user.username} - {c.content} - <Moment locale="vi" fromNow>{c.createdDate}</Moment> */}
 
-                {/* style={{ borderLeft: '1px solid black' }} */}
-                <ul key={props.cmt.id} className='form-comment' >
+                <ul key={props.question.id} className='form-comment' >
                     <li>
+                        {/* <div className='home'> */}
                         <Row>
                             <Col>
-                                <Image src={props.cmt.userId.avatar} roundedCircle style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />
+                                <Image
+                                    src={props.question.userId.avatar}
+                                    roundedCircle style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />
                             </Col>
                         </Row>
                     </li>
                     <li>
-                        <div key={props.cmt.userId.id}>@{props.cmt.userId.username}</div>
+                        {/* <Card className='question-item' key={props.question.id}> */}
+                        <Row>
+                            <Col>
+                                @{props.question.userId.username}
+                            </Col>
+                        </Row>
+                        {/* </div> */}
+
                         {!isEditing &&
                             <>
-                                <div>{props.cmt.content}</div>
+                                <li>
+                                    <div key={props.question.userId.id}>{props.question.content}</div>
+                                </li>
                                 <div>
                                     {canReply && <Link
                                         className='btn_Comment'
                                         variant="primary"
                                         type='button'
-                                        onClick={() => props.setActiveCmt({ id: props.cmt.id, type: "replying" })}
+                                        onClick={() => props.setActiveQuestion({ id: props.question.id, type: "replying" })}
                                     >
                                         Trả lời
                                     </Link>}
@@ -104,9 +108,9 @@ const CommentItem = (props, { replyId = 0 }) => {
                                         className='btn_Comment'
                                         variant="primary"
                                         type='button'
-                                        // onClick={() => props.setActiveCmt({ id: props.cmt.id, type: "editing" })}
+                                        // onClick={() => props.setActivequestion({ id: props.question.id, type: "editing" })}
                                         onClick={() => {
-                                            props.setActiveCmt({ id: props.cmt.id, type: "editing" })
+                                            props.setActiveQuestion({ id: props.question.id, type: "editing" })
                                         }}
                                     >
                                         Chỉnh sửa
@@ -116,12 +120,12 @@ const CommentItem = (props, { replyId = 0 }) => {
                                         className='btn_Comment '
                                         variant="primary"
                                         type='button'
-                                        onClick={() => props.deleteComment(props.cmt.id)}
+                                        onClick={() => props.deleteQuestion(props.question.id)}
                                     >
                                         Xóa
                                     </Link>}
                                     {isReplying && (
-                                        <Form onSubmit={submitReplyComment}>
+                                        <Form onSubmit={submitReplyQuestion}>
                                             <>
                                                 <ul className='form-comment'>
                                                     <li>
@@ -141,7 +145,7 @@ const CommentItem = (props, { replyId = 0 }) => {
                                                                 value={contentReply}
                                                                 onChange={e => setContentReplyState(e.target.value)}
                                                                 placeholder='Nhập bình luận ...'>
-                                                                {props.cmt.userId.username}
+                                                                {props.question.userId.username}
                                                             </Form.Control>
                                                         </InputGroup>
                                                     </li>
@@ -152,12 +156,9 @@ const CommentItem = (props, { replyId = 0 }) => {
                                                             Bình luận
                                                         </Button>
                                                         <Button
-                                                            // style={{ display: 'inline' }}
-                                                            // style={{ marginRight: 10 }}
-                                                            // inline={value.toString()}
                                                             variant="primary"
                                                             type="button"
-                                                            onClick={() => props.setActiveCmt(null)}
+                                                            onClick={() => props.setActiveQuestion(null)}
                                                         >
                                                             Hủy
                                                         </Button>
@@ -168,32 +169,34 @@ const CommentItem = (props, { replyId = 0 }) => {
                                         </Form >
                                     )}
                                     <>
-                                        {props.listCmtReplies.map(cmtReply => (
-                                            <CommentItem
-                                                key={cmtReply.id}
-                                                cmt={cmtReply}
+                                        {props.listCmtReplies.map(questionReply => (
+                                            <QuestionItem
+                                                key={questionReply.id}
+                                                question={questionReply}
                                                 getReplies={props.getReplies}
-                                                listCmtReplies={props.getReplies(cmtReply.id)}
-                                                updateComment={props.updateComment}
-                                                setListCmt={props.setListCmt}
-                                                deleteComment={props.deleteComment}
-                                                listComment={props.listComment}
-                                                activeComment={props.activeComment}
-                                                setActiveCmt={props.setActiveCmt}
-                                                reply={props.cmt.id}
+                                                listCmtReplies={props.getReplies(questionReply.id)}
+                                                updateQuestion={updateQuestion}
+                                                setListQuestion={props.setListQuestion}
+                                                deleteQuestion={props.deleteQuestion}
+                                                listQuestion={props.listQuestion}
+                                                activeQuestion={props.activeQuestion}
+                                                setActiveQuestion={props.setActiveQuestion}
+                                                reply={props.question.id}
                                             />
                                         ))}
                                     </>
                                 </div>
-                            </>}
+                            </>
+                        }
                         {isEditing &&
-                            <Form onSubmit={(e) => updateComment(e, props.cmt.id)} >
+                            <Form onSubmit={(e) => updateQuestion(e, props.question.id)} >
                                 <ul className='form-comment'>
                                     <li>
                                         <Row>
                                             <Col>
                                                 <Image src={user.avatar} roundedCircle style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />
                                             </Col>
+                                            {/* <Image style={{ width: "100%" }} src={user.avatar} roundedCircle alt='Logo' /> */}
                                         </Row>
                                     </li>
                                     <li>
@@ -217,7 +220,7 @@ const CommentItem = (props, { replyId = 0 }) => {
                                             variant="primary"
                                             type='button'
                                             // className='comment-form-button comment-form-cancel-button'
-                                            onClick={() => props.setActiveCmt(null)} >
+                                            onClick={() => props.setActiveQuestion(null)} >
                                             Hủy
                                         </Button>
                                         {/* )} */}
@@ -225,11 +228,16 @@ const CommentItem = (props, { replyId = 0 }) => {
                                 </ul>
                             </Form>
                         }
+                        {/* </li> */}
                     </li>
                 </ul >
-            </Row>
+            </>
+                :
+                <>
+                    <div>Vui lòng <Link to={`/login?next=/live_info/${props.question.id}`}>Đăng nhập</Link> để xem câu hỏi</div>
+                </>}
         </>
     );
 };
 
-export default CommentItem;
+export default QuestionItem;

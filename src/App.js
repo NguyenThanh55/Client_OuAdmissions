@@ -20,6 +20,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import PostItem from "./features/Post/postItem";
 import Contact from "./features/Contact/Contact";
+import LiveStreamItem from "./features/LiveStream/LiveStreamItem";
+import ChangePassword from "./features/Register_Login/ChangePassword";
 export const MyUserContext = createContext();
 
 const App = () => {
@@ -44,6 +46,7 @@ const App = () => {
                 <Route path="/depart_info/:id" element={<DepartItem />} />
                 <Route path="/comment/:id" element={<PostItem />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/live_info/:id" element={<LiveStreamItem />} />
                 <Route
                   path="/questionAndAnswer"
                   element={<QuestionAndAnswer />}
@@ -52,6 +55,7 @@ const App = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/chat" element={<ChatRoom />} />
+                <Route path="/changePassword" element={<ChangePassword />} />
               </Routes>
             </Container>
 

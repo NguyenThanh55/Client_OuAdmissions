@@ -1,19 +1,23 @@
 import React, { Component, useContext, useEffect, useState } from 'react';
 import './Header.scss';
-import logo from '../logo.png';
+import '../layout/cssall.css';
+import logo from '../logo1.png';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import TypeFeature from '../features/TypeOfTrainning/typeList';
-import { Button, Col, Form, FormControl, Image, Row } from 'react-bootstrap';
+import { Button, Col, DropdownButton, Form, FormControl, Image, Row } from 'react-bootstrap';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import axiosClient, { endpoints } from '../api/axiosClient';
 import { MyUserContext } from '../App';
+import Dropdown from './Dropdown';
 const Header = () => {
     const [user, dispatch] = useContext(MyUserContext);
     const [kw, setKw] = useState("");
     const nav = useNavigate();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
 
     const search = (evt) => {
         evt.preventDefault();
@@ -24,15 +28,19 @@ const Header = () => {
         dispatch({
             "type": "logout"
         })
+        nav("/");
     }
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
 
     return (
         <>
-            <Navbar bg="dark" variant="dark" >
+            <Navbar className="headcolor" variant="dark" >
                 <Container style={{ width: "80%" }}>
                     <Row style={{ width: "15%" }}>
                         <Col xs={6} style={{ width: "70%" }}>
-                            {/* <Image style={{ width: "100%" }} src='https://tuyensinh.ou.edu.vn/media/photos/media/logo/logo-w1.png' rounded alt='Logo' /> */}
                             <Image style={{ width: "100%" }} src={logo} rounded alt='Logo' />
                         </Col>
                     </Row>
@@ -49,12 +57,12 @@ const Header = () => {
                                 onChange={e => setKw(e.target.value)}
                                 placeholder="Nhập từ khóa..."
                             />
-                            <Button style={{ margin: "1%", height: "80%" }} variant="info" type='submit'> Tìm </Button>{' '}
+                            <Button style={{ margin: "1%", height: "80%" }} variant="info" className='buttonTim' type='submit'> Tìm </Button>{' '}
                         </Form>
                     </ul>
                 </Container>
             </Navbar>
-            <Navbar bg="dark" variant="dark" style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 0, paddingBottom: 5 }}>
+            <Navbar className="headcolor" variant="dark" style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 0, paddingBottom: 5 }}>
                 <Container style={{ width: "80%" }}>
                     <Nav className="mr-auto">
                         <Link to="/" className='nav-link'>Trang chủ</Link>
@@ -65,19 +73,29 @@ const Header = () => {
                         <Link to="/questionAndAnswer" className='nav-link'>Q&A</Link>
                         <Link to="/chat" className='nav-link'>Tư vấn trực tiếp</Link>
                         <Link to="/contact" className='nav-link'>Liên hệ</Link>
+                        <Link to="/changePassword" className='nav-link'>Đổi mật khẩu</Link>
                     </Nav>
                     {user === null ? <>
-                        <Button style={{ margin: "1%" }} variant="outline-info"><Link to="/register" className='text-white'>Đăng ký</Link></Button>{' '}
+                        <Link to="/register" className='loginbt'>Đăng ký</Link> {' '}
                         <Button style={{ margin: "1%" }} variant="outline-info"><Link to="/login" className='text-white'>Đăng nhập</Link></Button>{' '}
                     </> : <>
                         <Row >
                             <Col>
-                                <Image src={user.avatar} roundedCircle style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />
+                                <Image src={user.avatar}
+                                    roundedCircle
+                                    onClick={toggleDropdown}
+                                    style={{ width: 50, height: 50, borderRadius: 50 / 2, margin: 10 }} />
                             </Col>
                         </Row>
-                        <Button variant="outline-info"><Link to="/" className='text-white'>{user.username}</Link></Button>{' '}
+                        {/* <DropdownButton id="dropdown-basic-button" title="Dropdown button">
+                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                        </DropdownButton> */}
+                        <Link to="/" className='text-white'>{user.username}</Link>
                         <Button variant="outline-info" style={{ margin: "1%" }} onClick={logout}>Đăng xuất</Button>{' '}
                     </>}
+
                 </Container>
             </Navbar >
 
