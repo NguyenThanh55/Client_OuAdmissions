@@ -9,7 +9,7 @@
 }
 
 :root {
-  --fontColer: #094183;
+  --fontColer: #1150a0;
   --coursesColor: #edf2f5;
   --fontSize-Heading: 2.4rem;
   --fontSize-Content: 1.1rem;
@@ -87,14 +87,12 @@ ul.menu li {
   border: none !important;
 }
 .loginbt {
-  font-weight: bold;
-  color: black;
+  color: #f1f1f1;
   text-decoration: none;
 }
 
 .loginbt:hover {
-  color: rgb(29, 6, 114);
-  text-decoration: underline;
+  color: "#1150a0";
 }
 
 /* TEST OPEN NAV */
@@ -130,7 +128,7 @@ div.search-icon {
 /* banner styles */
 .banner {
   //   background: url("/contact.jpg") top center / cover no-repeat;
-  background-color: #035691;
+  background-color: #1150a0;
   margin-top: 76px;
   height: 500px;
   display: flex;

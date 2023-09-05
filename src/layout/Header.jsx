@@ -109,7 +109,7 @@ const Header = () => {
                 <Container style={{ width: "80%" }}>
                     <Nav className="mr-auto">
                         <Link to="/" className='nav-link'>Trang chủ</Link>
-                        <NavDropdown title="Thông tin tuyển sinh" id="basic-nav-dropdown">
+                        <NavDropdown title="Thông tin tuyển sinh" id="basic-nav-dropdown nav-link">
                             <TypeFeature />
                         </NavDropdown>
                         <Link to="/department" className='nav-link'>Thông tin khoa ngành</Link>
@@ -121,7 +121,7 @@ const Header = () => {
                     </Nav>
                     {user === null ? <>
                         <Link to="/register" className='loginbt'>Đăng ký</Link> {' '}
-                        <Button style={{ margin: "1%" }} variant="outline-info"><Link to="/login" className='text-white'>Đăng nhập</Link></Button>{' '}
+                        <Button style={{ margin: "1%" }} variant="outline-primary"><Link to="/login" className='text-white'>Đăng nhập</Link></Button>{' '}
                     </> : <>
                         {/* <Row >
                             <Col>

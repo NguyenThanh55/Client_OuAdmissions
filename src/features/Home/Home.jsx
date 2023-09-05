@@ -41,6 +41,7 @@ const Home = () => {
   return (
     <>
       <div>
+        <Banner/>
         <h1 className="text-center text-sky-500 mt-7 info">THÔNG TIN TUYỂN SINH</h1>
         <div className="home">
           <div style={{ width: "70%" }}>
