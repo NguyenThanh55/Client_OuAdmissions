@@ -29,7 +29,9 @@ const DepartItem = ({ departId }) => {
             <p3 className="mb-3">{depart.educationProgram}</p3>
             <h2>Website khoa:{depart.website}</h2>
             <p>{depart.introduceVideo}</p>
-            <h2>Điểm trung bình trúng tuyển: {depart.averageScore}</h2>
+            <h2>Điểm trung bình trúng tuyển:</h2>
+            <div dangerouslySetInnerHTML={{ __html: depart.averageScore}} />
+            
         </>
     );
 }
