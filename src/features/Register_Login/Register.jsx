@@ -4,6 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import axiosClient, { endpoints } from '../../api/axiosClient';
 import { toast } from 'react-toastify';
 import './style.scss';
+import MySpinner from '../Register_Login/MySpinner.js'
+
+
 const Register = () => {
     const [validated, setValidated] = useState(false);
 
@@ -25,12 +28,6 @@ const Register = () => {
         const form = evt.currentTarget;
         evt.preventDefault();
 
-        if (form.checkValidity() === false) {
-            evt.stopPropagation();
-        }
-
-        setValidated(true);
-
         const process = async () => {
             let form = new FormData();
 
@@ -39,7 +36,6 @@ const Register = () => {
 
             form.append("avatar", avatar.current.files[0]);
 
-            setLoading(true);
             let res = await axiosClient.post(endpoints["register-user"], form);
             if (res.status === 200) {
 
@@ -47,10 +43,58 @@ const Register = () => {
             } else setErr("Hệ thống bị lỗi!");
         };
 
-        if (user.password === user.confirmPassword) process();
+        const checkUsernameExist = async () => {
+
+            setLoading(true);
+            let e = `${endpoints['username']}${user.username.trim()}`;
+            let res = await axiosClient.get(e);
+            console.log(res.data);
+            if(res.data === "Username is exist") {
+                setErr("Tên đăng nhập đã tồn tại !!!");
+                setLoading(false);
+            } 
+            else {
+                process();
+            }
+        };
+
+        if (form.checkValidity() === false) {
+            evt.stopPropagation();
+        } 
+
+        function validatePhone(phone) {
+            // Tạo biểu thức chính quy cho số điện thoại Việt Nam
+            const vnfRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+          
+            // Kiểm tra xem số điện thoại có khớp với biểu thức chính quy hay không
+            return vnfRegex.test(phone);
+          }
+        
+        setValidated(true);
+
+        if(user.password.trim() !== "" && user.username.trim() !== "" && user.firstName.trim() !== "" && user.lastName.trim() !== "" 
+            && user.email.trim() !== "" && user.phone.trim() !== "" && user.confirmPassword.trim() && avatar.current.files[0] !== undefined) {
+                if(!validatePhone(user.phone.trim())) {
+                    setErr("Số điện thoại không đúng định dạng!");
+                }else {
+                    if (user.password.trim() === user.confirmPassword.trim()){
+                        if(user.password.trim().length < 6 || user.password.trim().length > 12){
+                            setErr("Mật khẩu tối thiểu 6, tối đa 12 kí tự!");
+                        } else {
+                            checkUsernameExist();
+                        }
+                    } 
+                    else {
+                        setErr("Mật khẩu không khớp!");
+                    }
+                }
+               
+            }
         else {
-            setErr("Mật khẩu không khớp!");
+            setErr("Vui lòng điền đầy đủ thông tin!");
         }
+
+        
     };
 
     const change = (evt, field) => {
@@ -82,7 +126,6 @@ const Register = () => {
                                                         type="text"
                                                         onChange={(e) => change(e, "firstName")}
                                                         placeholder="Nhập tên ..." />
-                                                    <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
                                                         Vui lòng tên!!!
                                                     </Form.Control.Feedback>
@@ -95,7 +138,6 @@ const Register = () => {
                                                         type="text"
                                                         onChange={(e) => change(e, "lastName")}
                                                         placeholder="Nhập họ ..." />
-                                                    <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
                                                         Vui lòng họ!!!
                                                     </Form.Control.Feedback>
@@ -108,7 +150,6 @@ const Register = () => {
                                                         type="email"
                                                         onChange={(e) => change(e, "email")}
                                                         placeholder="Nhập địa chỉ email ..." />
-                                                    <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
                                                         Vui lòng email!!!
                                                     </Form.Control.Feedback>
@@ -118,10 +159,9 @@ const Register = () => {
                                                     <p className=" textDky">Số điện thoại</p>
                                                     <Form.Control
                                                         required
-                                                        type="number"
+                                                        type="tel"
                                                         onChange={(e) => change(e, "phone")}
                                                         placeholder="Nhập số điện thoại ..." />
-                                                    <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
                                                         Vui lòng số điện thoại!!!
                                                     </Form.Control.Feedback>
@@ -134,7 +174,6 @@ const Register = () => {
                                                         type="text"
                                                         onChange={(e) => change(e, "username")}
                                                         placeholder="Nhập tên đăng nhập ..." />
-                                                    <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
                                                         Vui lòng tên đăng nhập!!!
                                                     </Form.Control.Feedback>
@@ -150,9 +189,9 @@ const Register = () => {
                                                         type="password"
                                                         onChange={(e) => change(e, "password")}
                                                         placeholder="Mật khẩu ..." />
-                                                    <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
+                                                    
                                                     <Form.Control.Feedback type="invalid">
-                                                        Vui lòng mật khẩu!!!
+                                                        Vui lòng nhập mật khẩu!!!
                                                     </Form.Control.Feedback>
                                                 </Form.Group>
                                                 <Form.Group
@@ -165,7 +204,6 @@ const Register = () => {
                                                         type="password"
                                                         onChange={(e) => change(e, "confirmPassword")}
                                                         placeholder="Xác nhận mật khẩu ..." />
-                                                    <Form.Control.Feedback>Tuyệt vời!</Form.Control.Feedback>
                                                     <Form.Control.Feedback type="invalid">
                                                         Vui lòng xác nhận mật khẩu!!!
                                                     </Form.Control.Feedback>
@@ -182,9 +220,9 @@ const Register = () => {
                                                     controlId="formBasicCheckbox"
                                                 ></Form.Group>
                                                 <div className="d-grid">
-                                                    <Button variant="primary" type="submit">
+                                                    {loading === true?<MySpinner />: <Button variant="primary" type="submit">
                                                         Tạo tài khoản
-                                                    </Button>
+                                                    </Button>}
                                                 </div>
                                             </Form>
                                             <div className="mt-3">
