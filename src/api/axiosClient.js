@@ -15,6 +15,7 @@ export const endpoints = {
   post5: `${SERVER_CONTEXT}/api/getList5Post/5`,
   posts: `${SERVER_CONTEXT}/api/listPost`,
   postByType: `${SERVER_CONTEXT}/api/getPostByType/`,
+  username: `${SERVER_CONTEXT}/api/username/`,
   departs: `${SERVER_CONTEXT}/api/departments/listDepartment`,
   departInfo: `${SERVER_CONTEXT}/api/departments/department_info/`,
   login: `${SERVER_CONTEXT}/api/login/`,
