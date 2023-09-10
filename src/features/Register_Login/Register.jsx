@@ -42,7 +42,6 @@ const Register = () => {
             setLoading(true);
             let res = await axiosClient.post(endpoints["register-user"], form);
             if (res.status === 200) {
-
                 nav("/login");
             } else setErr("Hệ thống bị lỗi!");
         };

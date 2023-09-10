@@ -7,18 +7,23 @@ import QuestionForm from './QuestionForm';
 import './liveStream.scss';
 import { useContext } from 'react';
 import { MyUserContext } from '../../App';
-import QuestionItem from './QuestionItem';
+import QuestionItem from '../Contact/QuestionItem';
 import ListQuestions from './ListQuestions';
+import { format } from 'date-fns';
 
 const LiveStreamItem = () => {
     const [user] = useContext(MyUserContext);
     const [live, setLive] = useState(null);
-    const [contentQuestion, setContentState] = useState('');
+    // const [content, setContent] = useState('');
+    // const [contentQuestion, setContentState] = useState('');
     const [showForm, setShowForm] = useState(false);
     const { id } = useParams();
     const [listQuestion, setListQuestion] = useState([]);
-    const [activeQuestion, setActiveQuestion] = useState(null);
+    // const [activeQuestion, setActiveQuestion] = useState(null);
+    // const [questions, setQuestions] = useState([]);
+    // const [answers, setAnswers] = useState([]);
     const reply = 0;
+
 
     useEffect(() => {
         const loadLiveInfo = async () => {
@@ -37,34 +42,51 @@ const LiveStreamItem = () => {
 
         loadLiveInfo();
         loadQuestions();
-    }, [id]);
+        // setQuestions(listQuestion.filter((q) => q.answer === 0));
+        // console.log(questions);
+        // setShowForm(false);
+    }, [id, listQuestion]);
+
+    const questions = listQuestion.filter(
+        (q) => q.answer === 0);
+
+    const updateListQuestion = (question) => {
+        setListQuestion(question, ...listQuestion);
+    }
+
+    const getAnswer = liveId => {
+        return listQuestion.filter((q) => q.answer === liveId);
+    }
 
     if (!live) {
         return <div>Chưa có dữ liệu</div>;
     }
 
-    const addQuestion = (e) => {
+    const formattedDate = format(live.date, "dd-MM-yyyy");
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const process = async () => {
-            let { data } = await axiosClient.post(endpoints['addQuestion'], {
-                "content": contentQuestion,
-                "livestreamId": id,
-                "userId": user,
-                "answer": reply
-            })
-            // console.log(data);
-            setListQuestion(data, ...listQuestion);
-        };
-        process();
-        setShowForm(false);
+
+        const currentTime = new Date();
+        console.log("Ngay hien tai");
+        console.log(currentTime);
+        const formattedDateNow = new Date(format(currentTime, "MM-dd-yyyy"));
+        console.log(formattedDateNow);
+
+        console.log(">>>>>>>>>>>");
+        console.log(format(live.date, "dd-MM-yyyy"));
+        const formattedDate = new Date(format(live.date, "MM-dd-yyyy"));
+        console.log(formattedDate);
+
+        if (formattedDateNow.getTime() < formattedDate.getTime()) {
+            setShowForm(true);
+            console.log("được đặt câu hỏi");
+        }
+        else {
+            setShowForm(false); //Không được đặt câu hỏi
+            console.log("Không được đặt câu hỏi");
+        }
     }
-
-    const questions = listQuestion.filter((q) => q.answer === 0);
-    // console.log(question);
-    // console.log(questions);
-
-
-
 
     if (listQuestion === null)
         return <div>Chưa có câu hỏi nào</div>
@@ -83,6 +105,7 @@ const LiveStreamItem = () => {
                                     <Container>
                                         <h2>{live.title}</h2>
                                         <div>{live.content}</div>
+                                        <div>Các bạn được đặt câu hỏi cho đến ngày {formattedDate}</div>
                                     </Container>
                                     <Container>
                                         <li className='form-question form-question-btn'>
@@ -90,7 +113,7 @@ const LiveStreamItem = () => {
                                                 <Button
                                                     variant="primary"
                                                     type="submit"
-                                                    onClick={() => setShowForm(true)}>
+                                                    onClick={(e) => handleSubmit(e)}>
                                                     Đặt câu hỏi
                                                 </Button>
                                                 : <><div>Vui lòng <Link to={`/login?next=/live_info/${id}`} >đăng nhập</Link> để đặt câu hỏi </div></>
@@ -99,33 +122,41 @@ const LiveStreamItem = () => {
                                         {showForm &&
                                             <QuestionForm
                                                 setShowForm={setShowForm}
-                                                addQuestion={addQuestion}
-                                                contentQuestion={contentQuestion}
-                                                setContentState={setContentState} />
+                                                setListQuestion={setListQuestion}
+                                                listQuestion={listQuestion}
+                                                handleSubmit={handleSubmit}
+                                                // contentQuestion={contentQuestion}
+                                                // setContentState={setContentState}
+                                                id={id}
+                                            />
                                         }
                                     </Container>
                                 </div>
                                 <hr />
-                                {user !== null ?
-                                    <ListQuestions
-                                        questions={questions}
-                                        setListQuestion={setListQuestion}
-                                        listQuestion={listQuestion}
-                                        activeQuestion={activeQuestion}
-                                        setActiveQuestion={setActiveQuestion}
-                                    />
+                                {/* {user !== null ?
+                                    questions.map(q =>
+                                        <QuestionItem
+                                            key={q.id}
+                                            id={id}
+                                            q={q}
+                                            updateListQuestion={updateListQuestion}
+                                            getAnswer={getAnswer}
+                                            answers={getAnswer(q.id)}
+                                            setListQuestion={setListQuestion}
+                                            listQuestion={listQuestion}
+                                        />
+                                    )
                                     :
                                     <>
                                         <div>Vui lòng <Link to={`/login?next=/live_info/${id}`}>Đăng nhập</Link> để xem câu hỏi
                                         </div>
                                     </>
-                                }
+                                } */}
                             </div>
                         </Card.Body>
                     </Card>
                 </Col >
             </Row >
-
         </>
     );
 };

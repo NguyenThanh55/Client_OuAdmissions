@@ -6,7 +6,7 @@ const MyUserReducer = (currentState, action) => {
         case "login":
             return action.payload;
         case "logout":
-            {   
+            {
                 redirect("/")
                 cookie.remove("token");
                 cookie.remove("user");

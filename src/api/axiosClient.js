@@ -2,7 +2,7 @@ import axios from "axios";
 import cookie from "react-cookies";
 
 const SERVER_CONTEXT = "/OUAdmissions";
-const SERVER = "http://localhost:8080";
+const SERVER = "http://localhost:8088";
 
 export const endpoints = {
   banner: `${SERVER_CONTEXT}/api/listBanner`,
@@ -28,10 +28,12 @@ export const endpoints = {
   liveInfo: `${SERVER_CONTEXT}/api/live_info/`,
   listQuestions: `${SERVER_CONTEXT}/api/questions/`,
   addQuestion: `${SERVER_CONTEXT}/api/questions/`,
+  date: `${SERVER_CONTEXT}/api/questions/getdate`,
   deleteQuestion: (questionId) =>
     `${SERVER_CONTEXT}/api/questions/${questionId}`,
   updateQuestion: (questionId) =>
     `${SERVER_CONTEXT}/api/questions/${questionId}`,
+  questionInfo: (quesId) => `${SERVER_CONTEXT}/api/questions/${quesId}`,
   questions: (liveId) => `${SERVER_CONTEXT}/api/live_info/${liveId}/questions`,
   "change-password": `${SERVER_CONTEXT}/api/change-password/`,
 };

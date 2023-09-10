@@ -11,29 +11,30 @@ const PAGE_SIZE = 10;
 const PostByType = (typeId) => {
 
     const [posts, setPostState] = useState(null);
-
+    const [pages, setPages] = useState(1);
     const { id } = useParams();
     const [q] = useSearchParams();
     const nav = useNavigate();
-    const [page, setPage] = useState(1);
-    const [start, setStart] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    // const [start, setStart] = useState('');
 
     useEffect(() => {
         let loadPosts = async () => {
             let e = `${endpoints['postByType']}${id}`;
-            // let page = q.get('page');
-            // if (page !== null)
-            //     e = `${e}?page=${page}`;
+            let page = q.get('page');
+            if (page !== null)
+                e = `${e}?page=${page}`;
             let response = await axiosClient.get(e);
-            setPostState(response.data);
-            // setPages(response.data.pages);
+            setPostState(response.data.posts);
+            setPages(response.data.pages);
         }
         loadPosts();
-    }, [q]);
+    }, [q, currentPage, id]);
 
-    useEffect(() => {
-        setStart((page - 1) * PAGE_SIZE)
-    }, [page]);
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        nav(`/post_by_Type/${id}?page=${page}`)
+    }
 
     if (posts === null) {
         return <div>Không có dữ liệu</div>;
@@ -43,13 +44,14 @@ const PostByType = (typeId) => {
         <>
             <div className='ChangePage'>
                 <Pagination
-                    count={Math.ceil(posts.length / PAGE_SIZE)}
+                    count={pages}
                     showFirstButton
                     showLastButton
-                    onChange={(e, p) => setPage(p)} />
+                    page={currentPage}
+                    onChange={(e, page) => handlePageChange(page)} />
             </div>
             <ul className='ListPostTS'>
-                {posts.slice(start, start + PAGE_SIZE).map(post => (
+                {posts.map(post => (
                     <li key={post.id}>
                         <Card className='card_post'>
                             <Card.Img variant="top" src="https://tuyensinh.ou.edu.vn/tmp/rscache/1110x475-21072023-01.png" />
