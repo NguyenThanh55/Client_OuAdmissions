@@ -31,6 +31,8 @@ const Answer = (props) => {
         // navigate("/questionAndAnswer");
     }
 
+    console.log(props.ques);
+
     return (
         <>
             <div className="overlay">

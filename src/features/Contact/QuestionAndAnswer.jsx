@@ -6,6 +6,7 @@ import { Pagination } from '@mui/material';
 import { MyUserContext } from '../../App';
 import QuestionForm from './QuestionForm';
 import Answer from './Answer';
+import { Navigate } from "react-router-dom";
 
 const QuestionAndAnswer = () => {
     const [listQuestion, setListQuestion] = useState([]);
@@ -117,6 +118,11 @@ const QuestionAndAnswer = () => {
         setCurrentPage(page);
         nav(`/questionAndAnswer?page=${page}`)
     }
+
+
+    if(user === null) {
+        return <Navigate to="/login" replace={true} />;
+    } 
 
     return (
         <div className='question-and-answer'>

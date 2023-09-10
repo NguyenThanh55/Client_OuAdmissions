@@ -24,7 +24,7 @@ const TypeFeature = () => {
             {typeList.map(type => {
 
                 // <NavDropdown.Item href={`#${type.id}`} key={type.id}>{type.name}</NavDropdown.Item >
-                let h = `/?typeId=${type.id}`;
+                let h = `/post_by_Type/${type.id}`;
                 // let h = `/${type.id}`;
                 // return <a href={`/#${type.id}`} className="dropdown-item" key={type.id}>{type.name}</a>
                 return <Link to={h} className="dropdown-item" key={type.id}>{type.name}</Link>
