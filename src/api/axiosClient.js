@@ -30,6 +30,7 @@ export const endpoints = {
   listQuestions: `${SERVER_CONTEXT}/api/questions/`,
   addQuestion: `${SERVER_CONTEXT}/api/questions/`,
   date: `${SERVER_CONTEXT}/api/questions/getdate`,
+  listQuestionsForLive: `${SERVER_CONTEXT}/api/questionsForLive/`,
   deleteQuestion: (questionId) =>
     `${SERVER_CONTEXT}/api/questions/${questionId}`,
   updateQuestion: (questionId) =>

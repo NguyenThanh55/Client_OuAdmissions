@@ -70,8 +70,11 @@ const Header = () => {
                         <Link to="/questionAndAnswer" className='nav-link'>Q&A</Link>
                         {loading ? <Link to={url_chatroom} className='nav-link'>Tư vấn trực tiếp</Link>
                             : <Link to="/chat/admin" className='nav-link'>Tư vấn trực tiếp</Link>}
-                        {/* {user.userRole === 'CONSULTANT' &&
-                            <Link to="/changePassword" className='nav-link'>Câu hỏi Live</Link>} */}
+                        {user === null ? <></> : <>
+                            {user.userRole === 'CONSULTANT' &&
+                                <Link to="/questionsForLive" className='nav-link'>Câu hỏi Live</Link>
+                            }
+                        </>}
                     </Nav>
                     {user === null ? <>
                         <div class="dky_dnhap">

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ListGroup, Pagination } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
+import { Pagination } from '@mui/material';
 import QuestionItem from '../Contact/QuestionItem';
 import axiosClient, { endpoints } from '../../api/axiosClient';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -16,20 +17,17 @@ const ListQuestions = () => {
     useEffect(() => {
         let loadQuestions = async () => {
             try {
-                let e = endpoints['listQuestions'];
+                let e = endpoints['listQuestionsForLive'];
                 let page = q.get('page');
                 if (page !== null)
                     e = `${e}?page=${page}`;
                 let response = await axiosClient.get(e);
                 setListQuestion(response.data.questions);
-                // console.log(response.data.questions);
                 setPages(response.data.pages);
             } catch (error) {
                 console.error(error);
             }
-
         }
-
         loadQuestions();
 
     }, [q, currentPage]);
@@ -37,7 +35,7 @@ const ListQuestions = () => {
     //Click chọn trang
     const handlePageChange = (page) => {
         setCurrentPage(page);
-        nav(`/questionAndAnswer?page=${page}`)
+        nav(`/questionsForLive?page=${page}`)
     }
 
     return (
@@ -46,7 +44,7 @@ const ListQuestions = () => {
                 {/* Hiện câu hỏi thường hỏi */}
                 <section className='container-question wow animate__animated animate__fadeInUp'>
                     <div className='section-ques'>
-                        <h2>Các câu hỏi thường gặp</h2>
+                        <h2>Các câu hỏi được đặt </h2>
                         <div className='ques-items'>
                             {listQuestion.map((q) => (
                                 <div className='ques-item' key={q.id}>

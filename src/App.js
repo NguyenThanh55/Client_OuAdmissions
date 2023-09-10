@@ -25,6 +25,7 @@ import Contact from "./features/Contact/Contact";
 import LiveStreamItem from "./features/LiveStream/LiveStreamItem";
 import ChangePassword from "./features/Register_Login/ChangePassword";
 import QuestionForm from "./features/LiveStream/QuestionForm";
+import ListQuestions from "./features/LiveStream/ListQuestions";
 export const MyUserContext = createContext();
 
 const App = () => {
@@ -70,6 +71,7 @@ const App = () => {
                   <Route path="/chat/:username" element={<ChatRoom />} />
                   <Route path="/chat" element={<ChatRoom />} />
                   <Route path="/changePassword" element={<ChangePassword />} />
+                  <Route path="/questionsForLive" element={<ListQuestions />} />
                 </Routes>
               </Container>
             </StrictMode>
