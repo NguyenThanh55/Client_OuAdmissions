@@ -4,6 +4,7 @@ import { MyUserContext } from '../../App';
 import './liveStream.scss';
 import axiosClient, { endpoints } from '../../api/axiosClient';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const QuestionForm = (props) => {
     const [content, setContent] = useState('');
@@ -15,22 +16,43 @@ const QuestionForm = (props) => {
     const handleAddQuestion = (e) => {
         e.preventDefault();
         const process = async () => {
-            let { data } = await axiosClient.post(endpoints['addQuestion'], {
-                "content": content,
-                "livestreamId": props.id,
-                "userId": user,
-                "answer": 0,
-                "style": true,
-            });
-            props.setListQuestion([...props.listQuestion], data);
-            quesRef.current = props.listQuestion;
-            // console.log(props.listQuestion);
+            try {
+                let { data } = await axiosClient.post(endpoints['addQuestion'], {
+                    "content": content,
+                    "livestreamId": props.id,
+                    "userId": user,
+                    "answer": 0,
+                    "style": true,
+                });
+                props.setListQuestion([...props.listQuestion], data);
+                quesRef.current = props.listQuestion;
+                toast.success('Gửi câu hỏi thành công!', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } catch (error) {
+                toast.error('Gửi không thành công!', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            }
         };
         process();
         props.setShowForm(false);
         navigate(`/live_info/${props.id}`);
     }
-
 
     return (
         <>
@@ -73,6 +95,7 @@ const QuestionForm = (props) => {
                                 </Card>
                             </Col>
                         </Row>
+                        <ToastContainer />
                     </Form>
                 </div>
             </div>

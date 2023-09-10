@@ -10,6 +10,7 @@ import { MyUserContext } from '../../App';
 import QuestionItem from '../Contact/QuestionItem';
 import ListQuestions from './ListQuestions';
 import { format } from 'date-fns';
+import { ToastContainer, toast } from 'react-toastify';
 
 const LiveStreamItem = () => {
     const [user] = useContext(MyUserContext);
@@ -133,30 +134,12 @@ const LiveStreamItem = () => {
                                     </Container>
                                 </div>
                                 <hr />
-                                {/* {user !== null ?
-                                    questions.map(q =>
-                                        <QuestionItem
-                                            key={q.id}
-                                            id={id}
-                                            q={q}
-                                            updateListQuestion={updateListQuestion}
-                                            getAnswer={getAnswer}
-                                            answers={getAnswer(q.id)}
-                                            setListQuestion={setListQuestion}
-                                            listQuestion={listQuestion}
-                                        />
-                                    )
-                                    :
-                                    <>
-                                        <div>Vui lòng <Link to={`/login?next=/live_info/${id}`}>Đăng nhập</Link> để xem câu hỏi
-                                        </div>
-                                    </>
-                                } */}
                             </div>
                         </Card.Body>
                     </Card>
-                </Col >
-            </Row >
+                </Col>
+                <ToastContainer />
+            </Row>
         </>
     );
 };
