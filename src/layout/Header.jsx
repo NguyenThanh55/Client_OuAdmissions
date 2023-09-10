@@ -17,8 +17,6 @@ const Header = () => {
     const [kw, setKw] = useState("");
     const nav = useNavigate();
 
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
     let url_chatroom = "/chat";
     let loading = true;
     if (user !== null) {
@@ -37,26 +35,16 @@ const Header = () => {
         dispatch({
             "type": "logout"
         })
-        nav("/");
     }
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
 
     return (
         <>
             <Navbar className="headcolor" variant="dark" >
                 <Container style={{ width: "80%" }}>
-                    <Row style={{ width: "15%" }}>
-                        <Col xs={6} style={{ width: "70%" }}>
-                            <Image style={{ width: "100%" }} src={logo} rounded alt='Logo' />
-                        </Col>
-                    </Row>
-                    <Navbar.Brand href="/" style={{ width: "65%", fontWeight: 'bold' }}>CỔNG THÔNG TIN TUYỂN SINH <br />TRƯỜNG ĐẠI HỌC MỞ THÀNH PHỐ HỒ CHÍ MINH</Navbar.Brand>
-                    <ul
-                        className="nav navbar-nav navbar-right" style={{ padding: 10 }}
-                    >
+                    <div>
+                        <Image class="img_logo" src="https://ou.edu.vn/wp-content/uploads/2016/08/Logo.png" rounded alt='Logo' />
+                    </div>
+                    <ul className="nav navbar-nav navbar-right" style={{ padding: 20 }}>
                         <Form onSubmit={search} inline className="d-flex">
                             <Form.Control
                                 style={{ height: "80%", margin: "1%" }}
@@ -66,83 +54,39 @@ const Header = () => {
                                 onChange={e => setKw(e.target.value)}
                                 placeholder="Nhập từ khóa..."
                             />
-                            <Button style={{ margin: "1%", height: "80%" }} variant="info" className='buttonTim' type='submit'> Tìm </Button>{' '}
+                            <Button style={{ margin: "1%", height: "80%" }} variant="info" className='buttonTim' type='submit'>Tìm kiếm </Button>{' '}
                         </Form>
                     </ul>
                 </Container>
             </Navbar>
-            {/* <Navbar className="headcolor" variant="dark" style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 0, paddingBottom: 5 }}>
-         <Container style={{ width: "80%" }}>
-             <Nav className="mr-auto">
-                 <Link to="/" className='nav-link'>Trang chủ</Link>
-                 <NavDropdown title="Thông tin tuyển sinh" id="basic-nav-dropdown">
-                     <TypeFeature />
-                 </NavDropdown>
-                 <Link to="/department" className='nav-link'>Thông tin khoa ngành</Link>
-                 <Link to="/questionAndAnswer" className='nav-link'>Q&A</Link>
-                 <Link to="/chat" className='nav-link'>Tư vấn trực tiếp</Link>
-                 <Link to="/contact" className='nav-link'>Liên hệ</Link> */}
-
-            {/* </Nav> */}
-            {/* {user === null ? <>
-                 <Link to="/register" className='loginbt'>Đăng ký</Link> {' '}
-                 <Button style={{ margin: "1%" }} variant="outline-info"><Link to="/login" className='text-white'>Đăng nhập</Link></Button>{' '}
-             </> : <>
-                 <Row >
-                     <Col>
-                         <Image src={user.avatar} */}
-            {/* roundedCircle
-                             onClick={toggleDropdown}
-                             style={{ width: 50, height: 50, borderRadius: 50 / 2, margin: 10 }} />
-                     </Col> */}
-            {/* </Row> */}
-            {/* <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-    //                         <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-    //                         <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-    //                         <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-    //                     </DropdownButton> */}
-            {/* //             <Link to="/" className='text-white'>{user.username}</Link>
-    //             <Button variant="outline-info" style={{ margin: "1%" }} onClick={logout}>Đăng xuất</Button>{' '}
-    //         </>} */}
-
             <Navbar className='headcolor' variant="dark" style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 0, paddingBottom: 5 }}>
                 <Container style={{ width: "80%" }}>
-                    <Nav className="mr-auto">
+                    <Nav className="mr-auto mr-auto123">
                         <Link to="/" className='nav-link'>Trang chủ</Link>
-                        <NavDropdown title="Thông tin tuyển sinh" id="basic-nav-dropdown nav-link">
+                        <NavDropdown title="Thông tin tuyển sinh" id="basic-nav-dropdown">
                             <TypeFeature />
                         </NavDropdown>
                         <Link to="/department" className='nav-link'>Thông tin khoa ngành</Link>
                         <Link to="/questionAndAnswer" className='nav-link'>Q&A</Link>
                         {loading ? <Link to={url_chatroom} className='nav-link'>Tư vấn trực tiếp</Link>
                             : <Link to="/chat/admin" className='nav-link'>Tư vấn trực tiếp</Link>}
-                        <Link to="/changePassword" className='nav-link'>Đổi mật khẩu</Link>
-
+                        {user === null ? <></> : <>
+                            {user.userRole === 'CONSULTANT' &&
+                                <Link to="/questionsForLive" className='nav-link'>Câu hỏi Live</Link>
+                            }
+                        </>}
                     </Nav>
                     {user === null ? <>
-                        <Link to="/register" className='loginbt'>Đăng ký</Link> {' '}
-                        <Button style={{ margin: "1%" }} variant="outline-primary"><Link to="/login" className='text-white'>Đăng nhập</Link></Button>{' '}
+                        <div class="dky_dnhap">
+                            <Button><Link to="/register">Đăng ký</Link></Button> {' '}
+                            <Button><Link to="/login">Đăng nhập</Link></Button>{' '}
+                        </div>
                     </> : <>
-                        {/* <Row >
-                            <Col>
-                                <Image src={user.avatar} roundedCircle style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />
-                            </Col>
-                        </Row> */}
-                        <Row >
-                            <Col>
-                                <Image src={user.avatar}
-                                    roundedCircle
-                                    onClick={toggleDropdown}
-                                    style={{ width: 50, height: 50, borderRadius: 50 / 2, margin: 10 }} />
-                            </Col>
-                        </Row>
-                        {/* <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                        </DropdownButton> */}
-                        <Link to="/" className='text-white'>{user.username}</Link>
-                        <Button variant="outline-info" style={{ margin: "1%" }} onClick={logout}>Đăng xuất</Button>{' '}
+                        <Dropdown logout={logout} />
+                        <div class="dky_dnhap">
+                            <Button><Link to="/" className='text-white'>{user.username}</Link></Button>
+                            {/* <Button variant="outline-info" onClick={logout}>Đăng xuất</Button>{' '} */}
+                        </div>
                     </>}
                 </Container>
             </Navbar >

@@ -5,7 +5,7 @@ import './Comment.scss';
 import axiosClient, { authApi, endpoints } from '../../api/axiosClient';
 import { Link } from 'react-router-dom';
 import CommentItem from './CommentItem';
-import CommentForm from '../LiveStream/QuestionForm';
+// import CommentForm from '../LiveStream/QuestionForm';
 
 const Comment = (props) => {
     const [user] = useContext(MyUserContext);

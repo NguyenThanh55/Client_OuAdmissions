@@ -5,6 +5,7 @@ import axiosClient, { authApi, endpoints } from '../../api/axiosClient';
 import cookie from "react-cookies";
 import { MyUserContext } from '../../App';
 import './style.scss';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
     const [user, dispatch] = useContext(MyUserContext)
@@ -35,8 +36,28 @@ const Login = () => {
                     "type": "login",
                     "payload": data
                 })
+                toast.success('Đăng nhập thành công!', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
             } catch (ex) {
                 console.error(ex);
+                toast.error('Đăng nhập không thành công!', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
             }
         }
         process();
@@ -73,7 +94,6 @@ const Login = () => {
                                                     Vui lòng nhập tên đăng nhập!!!
                                                 </Form.Control.Feedback>
                                             </Form.Group>
-
                                             <Form.Group
                                                 className="mb-3"
                                                 controlId="formBasicPassword"
@@ -122,6 +142,7 @@ const Login = () => {
                         </Card>
                     </Col>
                 </Row>
+                <ToastContainer />
             </Container>
         </div>
     );
