@@ -86,6 +86,16 @@ const LiveStreamItem = () => {
         else {
             setShowForm(false); //Không được đặt câu hỏi
             console.log("Không được đặt câu hỏi");
+            toast.error('Không được đặt câu hỏi. Đã hết giờ được hỏi!', {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         }
     }
 

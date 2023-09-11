@@ -7,6 +7,7 @@ import { MyUserContext } from '../../App';
 import QuestionForm from './QuestionForm';
 import Answer from './Answer';
 import './Contact.scss';
+import { Navigate } from "react-router-dom";
 
 const QuestionAndAnswer = () => {
     const [listQuestion, setListQuestion] = useState([]);
@@ -117,6 +118,11 @@ const QuestionAndAnswer = () => {
     const handlePageChange = (page) => {
         setCurrentPage(page);
         nav(`/questionAndAnswer?page=${page}`)
+    }
+
+
+    if (user === null) {
+        return <Navigate to="/login" replace={true} />;
     }
 
     return (
