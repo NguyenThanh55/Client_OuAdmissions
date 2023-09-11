@@ -19,7 +19,7 @@ const ListPost1 = () => {
             }
         }
         getPost();
-    })
+    }, [])
 
     // const handleClick = (id) => {
     //     history.push('/post_info/${id}');

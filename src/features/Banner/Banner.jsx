@@ -14,7 +14,7 @@ const Banner = () => {
             }
         }
         getBanner();
-    })
+    }, [])
     return (
         <>
             <Carousel>

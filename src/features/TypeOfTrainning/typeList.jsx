@@ -16,7 +16,7 @@ const TypeFeature = () => {
             }
         }
         getType();
-    })
+    },[])
 
     return (
         <>

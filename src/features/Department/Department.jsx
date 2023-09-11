@@ -16,7 +16,7 @@ const Department = () => {
             }
         }
         getDepart();
-    })
+    }, [])
 
     return (
         <>
