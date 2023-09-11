@@ -6,13 +6,14 @@ import { Pagination } from '@mui/material';
 import { MyUserContext } from '../../App';
 import QuestionForm from './QuestionForm';
 import Answer from './Answer';
+import './Contact.scss';
 
 const QuestionAndAnswer = () => {
     const [listQuestion, setListQuestion] = useState([]);
     const [expandedQuestion, setExpandedQuestion] = useState(null);
     const [answer, setAnswer] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [pages, setPages] = useState('');
+    const [pages, setPages] = useState(0);
     const [user] = useContext(MyUserContext);
     const nav = useNavigate();
     const [q] = useSearchParams();
@@ -106,10 +107,10 @@ const QuestionAndAnswer = () => {
     };
 
     //Click trả lời của người tư vấn
-    const submitAnswer = (q) => {
-        setShowForm(true);
-        setQues(q);
-    }
+    // const submitAnswer = (q) => {
+    //     setShowForm(true);
+    //     console.log(q);
+    // }
 
 
     //Click chọn trang
@@ -127,7 +128,7 @@ const QuestionAndAnswer = () => {
                     <div className='ques-items'>
                         {getListAllQuestions.map((q) => (
                             <div className='ques-item' key={q.id}>
-                                <div className={`ques ${expandedQuestion === q.id ? 'expanded' : ''}`} key={q.id}
+                                <div className={`ques ${expandedQuestion === q.id ? 'expanded' : ''}`}
                                     onClick={() => handleQuestionClick(q.id)}>
                                     {q.content}
                                     <span className='arrow-circle'>
@@ -149,16 +150,16 @@ const QuestionAndAnswer = () => {
                                         className='btn_Comment'
                                         variant="primary"
                                         type='button'
-                                        onClick={(q) => submitAnswer(q)}
+                                    // onClick={() => }
                                     >
-                                        Trả lời
+                                        <Link to={`/questionInfo/${q.id}`} className='answerForQuesId'>Trả lời</Link>
                                     </Button>
                                 }
                                 {showForm && <div>
                                     <Answer
                                         setShowForm={setShowForm}
-                                        setListQuestion={setListQuestion}
-                                        listQuestion={listQuestion}
+                                        // setListQuestion={setListQuestion}
+                                        // listQuestion={listQuestion}
                                         ques={ques} />
                                 </div>
                                 }

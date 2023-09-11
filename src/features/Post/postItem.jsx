@@ -15,7 +15,7 @@ function PostItem({ postId }) {
     const { id } = useParams();
 
     useEffect(() => {
-        axiosClient.get(`${endpoints['postInfo']} + ${id}`)
+        axiosClient.get(endpoints['postInfo'](id))
             .then(response => {
                 setPost(response.data);
             })

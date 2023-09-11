@@ -7,7 +7,7 @@ const SERVER = "http://localhost:8088";
 export const endpoints = {
   banner: `${SERVER_CONTEXT}/api/listBanner`,
   type: `${SERVER_CONTEXT}/api/type`,
-  postInfo: `${SERVER_CONTEXT}/api/post_info/`,
+  postInfo: (id) => `${SERVER_CONTEXT}/api/post_info/${id}`,
   post1: `${SERVER_CONTEXT}/api/getList5Post/1`,
   post2: `${SERVER_CONTEXT}/api/getList5Post/2`,
   post3: `${SERVER_CONTEXT}/api/getList5Post/3`,
