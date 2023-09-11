@@ -12,7 +12,7 @@ const NotificationLive = () => {
         axiosClient.get(endpoints['liveStreams'])
             .then(res => { setLive(res.data); })
             .catch(err => { console.log(err.message); });
-    });
+    }, []);
 
     if (!lives)
         return <div>Chưa có thông báo nào</div>;

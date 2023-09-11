@@ -23,7 +23,7 @@ const ListPost4 = () => {
             }
         }
         getPost();
-    })
+    }, [])
 
     return (
         <ul className='ListPostTS'>
