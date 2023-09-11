@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import axiosClient, { endpoints } from '../../api/axiosClient';
 import Banner from '../Banner/Banner';
+import { Card } from 'react-bootstrap';
 
 const Search = () => {
     const [posts, setPosts] = useState(null);
@@ -31,11 +32,16 @@ const Search = () => {
     return (
         <>
             <Banner />
-            <ul>
+            <ul className='ListPostTS' >
                 {posts.map(post => (
-                    <li>
-                        <h2>{post.title}</h2>
-                        <p>{post.content}</p>
+                    <li key={post.id}>
+                        <Card className='card_post'>
+                            <Card.Img variant="top" src="https://tuyensinh.ou.edu.vn/tmp/rscache/1110x475-21072023-01.png" />
+                            <Card.Body>
+                                {/* <Card.Title><a href={() => handleClick()}>{post.title}</a></Card.Title> */}
+                                <Card.Title><Link className='deco_post' to={`/post_info/${post.id}`}>{post.title}</Link></Card.Title>
+                            </Card.Body>
+                        </Card>
                     </li>
                 ))}
             </ul>
